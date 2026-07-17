@@ -9,3 +9,7 @@ $RECYCLE.BIN/
 
 # Respaldos que descarga el panel de admin: son tuyos, no van publicados
 sabor-vinotinto-respaldo-*.json
+
+# Fotos originales sin comprimir: la página usa la versión ya procesada,
+# subirlas solo haría el repo más pesado. Se quedan en tu computador.
+img/*-original.*
