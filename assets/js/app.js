@@ -152,7 +152,8 @@
     contador.dataset.vacio = unidades === 0 ? '1' : '0';
 
     $('#cart-total').textContent = plata(total);
-    $('#btn-comprar').disabled = items.length === 0;
+    // Sin productos no se puede continuar al paso de datos.
+    $('#btn-continuar').disabled = items.length === 0;
 
     if (!items.length) {
       cont.innerHTML = '<div class="cart-vacio"><div>🛒</div>'
@@ -200,6 +201,8 @@
 
   function abrirCarrito() {
     pintarCarrito();
+    irAPaso(1);
+    precargarDatos();
     $('#cart-drawer').classList.add('abierto');
     $('#cart-overlay').classList.add('abierto');
     document.body.style.overflow = 'hidden';
@@ -210,12 +213,93 @@
     document.body.style.overflow = '';
   }
 
+  /* ── Flujo en dos pasos ──
+     Paso 1: los productos. Paso 2: los datos de entrega. */
+  function irAPaso(n) {
+    const drawer = $('#cart-drawer');
+    drawer.dataset.paso = n;
+    $('#paso-productos').style.display = n === 1 ? '' : 'none';
+    $('#paso-datos').style.display = n === 2 ? '' : 'none';
+    $('#btn-continuar').style.display = n === 1 ? '' : 'none';
+    $('#acciones-paso2').style.display = n === 2 ? '' : 'none';
+    $('#drawer-titulo').textContent = n === 1 ? 'Tu pedido' : 'Datos de entrega';
+    document.querySelectorAll('.paso-punto').forEach(p =>
+      p.classList.toggle('activo', p.dataset.p === String(n)));
+    drawer.scrollTop = 0;
+  }
+
+  /* ── Ubicación por GPS ──
+     Pide permiso al navegador y arma un enlace de Google Maps. Solo funciona en
+     HTTPS (la página publicada lo es). Es opcional: si el cliente no la comparte,
+     el pedido igual se envía con la dirección escrita. */
+  let ubicacion = null;
+  function capturarUbicacion() {
+    const btn = $('#btn-ubicacion');
+    const txt = $('#ubicacion-texto');
+    if (!navigator.geolocation) {
+      toast('Tu navegador no permite compartir ubicación');
+      return;
+    }
+    txt.textContent = 'Buscando tu ubicación…';
+    btn.disabled = true;
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const { latitude, longitude } = pos.coords;
+        ubicacion = 'https://maps.google.com/?q=' + latitude.toFixed(6) + ',' + longitude.toFixed(6);
+        txt.textContent = '✓ Ubicación lista';
+        btn.classList.add('ok');
+        btn.disabled = false;
+      },
+      err => {
+        btn.disabled = false;
+        txt.textContent = 'Compartir mi ubicación';
+        toast(err.code === 1
+          ? 'Diste "no" al permiso de ubicación'
+          : 'No se pudo obtener la ubicación');
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }
+
+  /* ── Datos del cliente ──
+     Se recuerdan en el navegador para que un cliente que vuelve no los reescriba. */
+  const K_CLIENTE = 'sv_cliente';
+  function precargarDatos() {
+    let d = {};
+    try { d = JSON.parse(localStorage.getItem(K_CLIENTE)) || {}; } catch (e) {}
+    if (d.nombre) $('#cli-nombre').value = d.nombre;
+    if (d.tel) $('#cli-tel').value = d.tel;
+    if (d.ciudad) $('#cli-ciudad').value = d.ciudad;
+    if (d.dir) $('#cli-dir').value = d.dir;
+  }
+  function guardarDatos(d) {
+    try { localStorage.setItem(K_CLIENTE, JSON.stringify(d)); } catch (e) {}
+  }
+
+  function leerDatos() {
+    return {
+      nombre: ($('#cli-nombre').value || '').trim(),
+      tel: ($('#cli-tel').value || '').trim(),
+      ciudad: ($('#cli-ciudad').value || '').trim(),
+      dir: ($('#cli-dir').value || '').trim()
+    };
+  }
+
+  // Devuelve el input del primer campo vacío, o null si están todos.
+  function primerFaltante(d) {
+    if (!d.nombre) return '#cli-nombre';
+    if (d.tel.replace(/\D/g, '').length < 7) return '#cli-tel';
+    if (!d.ciudad) return '#cli-ciudad';
+    if (!d.dir) return '#cli-dir';
+    return null;
+  }
+
   /* ── Pedido por WhatsApp ──
      Sin emojis a propósito: la bandera 🇻🇪 y los iconos llegaban como "�" en
      Windows y en algunos teléfonos. Con texto plano se ve igual en todas partes.
      El panel de admin vuelve a leer este formato ("Pegar pedido"), así que si
      lo cambias, ajusta también parsearPedido() en admin.js. */
-  function textoPedido(items, total, nombre, direccion) {
+  function textoPedido(items, total, d) {
     const lineas = ['*NUEVO PEDIDO — Sabor Vinotinto*', '', '*Productos:*'];
 
     items.forEach(l => {
@@ -225,11 +309,13 @@
     lineas.push('');
     lineas.push('*TOTAL: ' + plata(total) + ' COP*');
 
-    if (nombre || direccion) {
-      lineas.push('');
-      if (nombre) lineas.push('*Cliente:* ' + nombre);
-      if (direccion) lineas.push('*Entrega:* ' + direccion);
-    }
+    lineas.push('');
+    lineas.push('*DATOS DE ENTREGA*');
+    lineas.push('*Cliente:* ' + d.nombre);
+    lineas.push('*Teléfono:* ' + d.tel);
+    lineas.push('*Ciudad:* ' + d.ciudad);
+    lineas.push('*Dirección:* ' + d.dir);
+    if (ubicacion) lineas.push('*Ubicación:* ' + ubicacion);
 
     lineas.push('');
     lineas.push('_Pedido hecho desde la página_');
@@ -239,11 +325,23 @@
   function comprar() {
     const items = S.carritoDetallado();
     if (!items.length) return;
-    const nombre = ($('#cli-nombre').value || '').trim();
-    const direccion = ($('#cli-dir').value || '').trim();
-    const total = S.totalCarrito();
 
-    window.open(waLink(textoPedido(items, total, nombre, direccion)), '_blank');
+    const d = leerDatos();
+    const faltante = primerFaltante(d);
+    if (faltante) {
+      $('#datos-error').textContent = faltante === '#cli-tel' && d.tel
+        ? 'El teléfono parece incompleto'
+        : 'Completa todos los campos con *';
+      const inp = $(faltante);
+      inp.classList.add('malo');
+      inp.focus();
+      setTimeout(() => inp.classList.remove('malo'), 1500);
+      return;
+    }
+
+    $('#datos-error').textContent = '';
+    guardarDatos(d);
+    window.open(waLink(textoPedido(items, S.totalCarrito(), d)), '_blank');
 
     // El stock real se descuenta cuando el admin confirma el pedido en el panel:
     // abrir WhatsApp no garantiza que el mensaje se haya enviado.
@@ -368,7 +466,14 @@
     $('#cart-btn').addEventListener('click', abrirCarrito);
     $('#cart-cerrar').addEventListener('click', cerrarCarrito);
     $('#cart-overlay').addEventListener('click', cerrarCarrito);
+    $('#btn-continuar').addEventListener('click', () => irAPaso(2));
+    $('#btn-volver').addEventListener('click', () => irAPaso(1));
+    $('#btn-ubicacion').addEventListener('click', capturarUbicacion);
     $('#btn-comprar').addEventListener('click', comprar);
+    // Enter en cualquier campo de datos = enviar
+    $('#paso-datos').addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); comprar(); }
+    });
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') cerrarCarrito();

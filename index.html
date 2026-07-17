@@ -168,21 +168,27 @@
       </div>
       <div class="step-card sv-hidden">
         <div class="step-num">2</div>
-        <div class="step-emoji">📱</div>
-        <h3>Dale al botón verde</h3>
-        <p>Al pulsar <strong style="color:#25D366">Enviar pedido por WhatsApp</strong>
-           se abre el chat con tu pedido ya escrito: cada producto, las cantidades
-           y el total. Solo le das enviar y nos llega al
-           <strong data-wa-texto style="color:#F5E9C8"></strong></p>
+        <div class="step-emoji">📝</div>
+        <h3>Pon tus datos</h3>
+        <p>Nombre, teléfono, ciudad y dirección. Si quieres, comparte tu
+           ubicación con un toque para que el domicilio te llegue más fácil.</p>
       </div>
       <div class="step-card sv-hidden">
         <div class="step-num">3</div>
+        <div class="step-emoji">📱</div>
+        <h3>Dale al botón verde</h3>
+        <p>Se abre WhatsApp con todo escrito —productos, total y tus datos— y
+           nos llega al <strong data-wa-texto style="color:#F5E9C8"></strong>.
+           Solo le das enviar.</p>
+      </div>
+      <div class="step-card sv-hidden">
+        <div class="step-num">4</div>
         <div class="step-emoji">🚚</div>
         <h3>Confirmamos y enviamos</h3>
         <p>Acordamos pago y envío. Transferencia o efectivo.</p>
       </div>
       <div class="step-card sv-hidden">
-        <div class="step-num">4</div>
+        <div class="step-num">5</div>
         <div class="step-emoji">😋</div>
         <h3>¡Disfruta!</h3>
         <p>El auténtico sabor venezolano en casa.</p>
@@ -235,25 +241,75 @@
 
 <!-- ── CARRITO ── -->
 <div id="cart-overlay"></div>
-<aside id="cart-drawer" aria-label="Carrito de compras">
+<aside id="cart-drawer" aria-label="Carrito de compras" data-paso="1">
   <div class="drawer-head">
-    <h3>Tu pedido</h3>
+    <div>
+      <h3 id="drawer-titulo">Tu pedido</h3>
+      <div class="drawer-pasos">
+        <span class="paso-punto activo" data-p="1">1. Productos</span>
+        <span class="paso-sep">›</span>
+        <span class="paso-punto" data-p="2">2. Datos de entrega</span>
+      </div>
+    </div>
     <button class="btn-cerrar" id="cart-cerrar" aria-label="Cerrar carrito">✕</button>
   </div>
-  <div id="cart-items"></div>
-  <div class="drawer-foot">
+
+  <!-- PASO 1: productos -->
+  <div id="paso-productos" class="drawer-cuerpo">
+    <div id="cart-items"></div>
+  </div>
+
+  <!-- PASO 2: datos de entrega -->
+  <div id="paso-datos" class="drawer-cuerpo" style="display:none">
     <div class="datos-cliente">
-      <input class="sv-input" id="cli-nombre" placeholder="Tu nombre (opcional)">
-      <input class="sv-input" id="cli-dir" placeholder="Ciudad o dirección (opcional)">
+      <div>
+        <label class="sv-label">Nombre completo *</label>
+        <input class="sv-input" id="cli-nombre" autocomplete="name" placeholder="Ej: Daniela Pérez">
+      </div>
+      <div>
+        <label class="sv-label">Teléfono / WhatsApp *</label>
+        <input class="sv-input" id="cli-tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 320 123 4567">
+      </div>
+      <div>
+        <label class="sv-label">Ciudad *</label>
+        <input class="sv-input" id="cli-ciudad" autocomplete="address-level2" placeholder="Ej: Cúcuta">
+      </div>
+      <div>
+        <label class="sv-label">Dirección de entrega *</label>
+        <input class="sv-input" id="cli-dir" autocomplete="street-address" placeholder="Barrio, calle, número, apto…">
+      </div>
+      <div>
+        <label class="sv-label">Ubicación (opcional pero ayuda al domicilio)</label>
+        <button type="button" id="btn-ubicacion" class="btn-ubicacion">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="ubicacion-texto">Compartir mi ubicación</span>
+        </button>
+      </div>
+      <div id="datos-error"></div>
     </div>
+  </div>
+
+  <div class="drawer-foot">
     <div class="total-row">
       <span>Total</span>
       <span id="cart-total">$0</span>
     </div>
-    <button id="btn-comprar" disabled>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.855L.036 23.682a.5.5 0 0 0 .613.613l5.827-1.497A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.826 9.826 0 0 1-5.002-1.368l-.36-.213-3.718.954.974-3.63-.234-.374A9.822 9.822 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
-      Enviar pedido por WhatsApp
+
+    <!-- Botón del paso 1 -->
+    <button id="btn-continuar" class="btn-continuar" disabled>
+      Continuar
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </button>
+
+    <!-- Botones del paso 2 -->
+    <div id="acciones-paso2" style="display:none">
+      <button id="btn-comprar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.855L.036 23.682a.5.5 0 0 0 .613.613l5.827-1.497A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.826 9.826 0 0 1-5.002-1.368l-.36-.213-3.718.954.974-3.63-.234-.374A9.822 9.822 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
+        Enviar pedido por WhatsApp
+      </button>
+      <button id="btn-volver" class="btn-volver">← Volver a los productos</button>
+    </div>
+
     <div class="nota-envio">Se abre WhatsApp con tu pedido listo.<br>El envío se cotiza al confirmar.</div>
   </div>
 </aside>

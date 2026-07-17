@@ -313,19 +313,29 @@ img { max-width: 100%; }
 }
 #cart-drawer.abierto { transform: translateX(0); }
 .drawer-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 24px; border-bottom: 1px solid rgba(201,162,39,.15);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  padding: 20px 24px; border-bottom: 1px solid rgba(201,162,39,.15);
 }
 .drawer-head h3 {
   font-family: 'Playfair Display', serif; font-size: 22px; color: var(--crema); font-weight: 900;
 }
+/* Indicador de pasos "1. Productos › 2. Datos de entrega" */
+.drawer-pasos { display: flex; align-items: center; gap: 7px; margin-top: 5px; }
+.paso-punto {
+  font-size: 11px; font-weight: 800; letter-spacing: .3px;
+  color: rgba(245,233,200,.35); transition: color .2s;
+}
+.paso-punto.activo { color: var(--oro); }
+.paso-sep { color: rgba(245,233,200,.25); font-size: 12px; }
 .btn-cerrar {
   width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.06);
-  color: rgba(245,233,200,.6); font-size: 18px; line-height: 1;
+  color: rgba(245,233,200,.6); font-size: 18px; line-height: 1; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center; transition: background .2s;
 }
 .btn-cerrar:hover { background: rgba(255,255,255,.14); color: var(--crema); }
-#cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+.drawer-cuerpo { flex: 1; overflow-y: auto; }
+#cart-items { padding: 16px 24px; }
+#paso-datos { padding: 20px 24px; }
 .cart-vacio { text-align: center; padding: 60px 20px; color: rgba(245,233,200,.4); }
 .cart-vacio div:first-child { font-size: 52px; margin-bottom: 14px; }
 .cart-item {
@@ -364,14 +374,29 @@ img { max-width: 100%; }
   background: rgba(207,20,43,.22); border-color: rgba(207,20,43,.55); transform: scale(1.08);
 }
 .drawer-foot { padding: 20px 24px 24px; border-top: 1px solid rgba(201,162,39,.15); }
-.datos-cliente { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-.datos-cliente input {
-  background: rgba(255,255,255,.05); border: 1px solid rgba(201,162,39,.18);
-  border-radius: 10px; padding: 10px 14px; color: var(--crema);
-  font-size: 13px; font-family: inherit; font-weight: 600;
+
+/* Formulario de datos de entrega (paso 2) */
+.datos-cliente { display: flex; flex-direction: column; gap: 13px; }
+.datos-cliente .sv-label { margin-bottom: 5px; }
+.datos-cliente .sv-input { width: 100%; }
+.sv-input.malo {
+  border-color: var(--rojo) !important;
+  box-shadow: 0 0 0 3px rgba(207,20,43,.15);
 }
-.datos-cliente input::placeholder { color: rgba(245,233,200,.3); }
-.datos-cliente input:focus { outline: none; border-color: rgba(201,162,39,.5); }
+#datos-error { color: var(--rojo); font-size: 12px; font-weight: 700; min-height: 16px; }
+
+.btn-ubicacion {
+  display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  background: rgba(201,162,39,.1); border: 1px dashed rgba(201,162,39,.4);
+  color: var(--oro); font-weight: 800; font-size: 13px;
+  padding: 11px; border-radius: 10px; transition: all .2s;
+}
+.btn-ubicacion:hover:not(:disabled) { background: rgba(201,162,39,.18); }
+.btn-ubicacion:disabled { opacity: .6; cursor: wait; }
+.btn-ubicacion.ok {
+  background: rgba(37,211,102,.12); border-style: solid; border-color: var(--wa); color: #4ade80;
+}
+
 .total-row {
   display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px;
 }
@@ -383,6 +408,17 @@ img { max-width: 100%; }
   font-family: 'Nunito', sans-serif; font-size: 29px; color: var(--oro);
   font-weight: 900; letter-spacing: -.5px; font-variant-numeric: tabular-nums;
 }
+/* Paso 1: continuar a los datos (dorado, es la marca) */
+.btn-continuar {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: var(--oro); color: var(--vino-osc); font-weight: 800; font-size: 16px;
+  padding: 16px; border-radius: 50px; width: 100%;
+  box-shadow: 0 6px 24px rgba(201,162,39,.3); transition: transform .15s;
+}
+.btn-continuar:hover:not(:disabled) { transform: translateY(-2px); }
+.btn-continuar:disabled { opacity: .4; cursor: not-allowed; box-shadow: none; }
+
+/* Paso 2: enviar por WhatsApp (verde, es el botón que manda el pedido) */
 #btn-comprar {
   display: flex; align-items: center; justify-content: center; gap: 10px;
   background: var(--wa); color: #fff; font-weight: 800; font-size: 16px;
@@ -391,14 +427,21 @@ img { max-width: 100%; }
 }
 #btn-comprar:hover:not(:disabled) { transform: translateY(-2px); }
 #btn-comprar:disabled { opacity: .4; cursor: not-allowed; box-shadow: none; }
+.btn-volver {
+  width: 100%; margin-top: 10px; padding: 8px;
+  color: rgba(245,233,200,.5); font-size: 13px; font-weight: 700; transition: color .2s;
+}
+.btn-volver:hover { color: var(--crema); }
 .nota-envio {
   font-size: 11px; color: rgba(245,233,200,.35); text-align: center;
   margin-top: 12px; line-height: 1.5;
 }
+/* La nota habla de WhatsApp, así que solo tiene sentido en el paso 2 */
+#cart-drawer[data-paso="1"] .nota-envio { display: none; }
 
 /* ── Cómo comprar ── */
 #sv-como { background: #160606; padding: 110px 48px; }
-.pasos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+.pasos { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; position: relative; }
 .pasos-linea {
   position: absolute; top: 36px; left: 10%; right: 10%; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(201,162,39,.3), rgba(201,162,39,.3), transparent);
