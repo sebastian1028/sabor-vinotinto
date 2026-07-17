@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sabor Vinotinto — Productos venezolanos en Colombia</title>
+<meta name="description" content="El Chichero, Malta, Mavesa, Toddy, Diablito y más productos venezolanos auténticos con envío a toda Colombia. Pide por WhatsApp.">
+<meta name="theme-color" content="#0e0404">
+<link rel="icon" href="img/logo.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sabor Vinotinto — Productos venezolanos en Colombia">
+<meta property="og:description" content="El sabor que extrañas, con envío a toda Colombia. Pide por WhatsApp.">
+<meta property="og:image" content="img/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- Bandera de Venezuela en SVG, definida una sola vez y reusada con <use>.
+     No usamos el emoji 🇻🇪 porque Windows no dibuja banderas: muestra "VE". -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <polygon id="ve-estrella" points="0,-1 0.225,-0.309 0.951,-0.309 0.363,0.118 0.588,0.809 0,0.382 -0.588,0.809 -0.363,0.118 -0.951,-0.309 -0.225,-0.309"/>
+    <symbol id="ve-flag" viewBox="0 0 3 2">
+      <rect width="3" height="0.667" fill="#FFD100"/>
+      <rect y="0.667" width="3" height="0.667" fill="#003893"/>
+      <rect y="1.334" width="3" height="0.666" fill="#CF142B"/>
+      <use href="#ve-estrella" transform="translate(1.237,0.904) scale(0.062)" fill="white"/>
+      <use href="#ve-estrella" transform="translate(1.285,0.820) scale(0.062)" fill="white"/>
+      <use href="#ve-estrella" transform="translate(1.360,0.757) scale(0.062)" fill="white"/>
+      <use href="#ve-estrella" transform="translate(1.451,0.724) scale(0.062)" fill="white"/>
+      <use href="#ve-estrella" transform="translate(1.549,0.724) scale(0.062)" fill="white"/>
+      <use href="#ve-estrella" transform="translate(1.640,0.757) scale(0.062)" fill="white"/>
+      <use href="#ve-estrella" transform="translate(1.715,0.820) scale(0.062)" fill="white"/>
+      <use href="#ve-estrella" transform="translate(1.763,0.904) scale(0.062)" fill="white"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div id="progress-bar"></div>
+
+<!-- WhatsApp flotante -->
+<a id="wa-float" data-wa-link="Hola Sabor Vinotinto! Quiero hacer un pedido" href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.855L.036 23.682a.5.5 0 0 0 .613.613l5.827-1.497A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.826 9.826 0 0 1-5.002-1.368l-.36-.213-3.718.954.974-3.63-.234-.374A9.822 9.822 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
+</a>
+
+<!-- ── NAV ── -->
+<nav id="sv-nav">
+  <a class="nav-marca" href="#hero">
+    <img src="img/logo.png" alt="Logo Sabor Vinotinto">
+    <span>SABOR VINOTINTO</span>
+  </a>
+  <div class="nav-links">
+    <a href="#sv-productos" class="nav-a">Productos</a>
+    <a href="#sv-como" class="nav-a">Cómo Comprar</a>
+    <button id="cart-btn" aria-label="Abrir carrito">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Carrito
+      <span id="cart-count" data-vacio="1">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg-layer"></div>
+  <div class="orb1"></div>
+  <div class="orb2"></div>
+  <div class="flag-line">
+    <div style="background:#C9A227"></div>
+    <div style="background:#003893"></div>
+    <div style="background:#CF142B"></div>
+  </div>
+
+  <div class="hero-grid">
+    <div>
+      <h1 id="hero-title">
+        <span id="split-line1">El sabor</span>
+        <span id="split-line2">que extrañas</span>
+        <span id="split-line3">en Colombia</span>
+      </h1>
+      <p id="hero-sub">El Chichero, Malta, Mavesa, Toddy y más productos venezolanos auténticos llegando directo a tu puerta.</p>
+      <div id="hero-btns">
+        <a href="#sv-productos" class="btn-oro">Ver Productos</a>
+        <a href="#sv-como" class="btn-ghost">Cómo pedir</a>
+      </div>
+      <div id="hero-stats">
+        <div>
+          <div id="cnt1" class="stat-n">0</div>
+          <div class="stat-l">Productos</div>
+        </div>
+        <div class="stat-div"></div>
+        <div>
+          <div id="cnt2" class="stat-n">0%</div>
+          <div class="stat-l">Originales</div>
+        </div>
+        <div class="stat-div"></div>
+        <div>
+          <svg class="stat-bandera" viewBox="0 0 3 2" aria-hidden="true"><use href="#ve-flag"/></svg>
+          <div class="stat-l">Auténticos</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="hero-right">
+      <div class="logo-wrap">
+        <div class="logo-ring"></div>
+        <div class="logo-glow"></div>
+        <img src="img/logo.png" alt="Sabor Vinotinto">
+      </div>
+      <!-- preload="none": el video pesa 10 MB y solo se descarga si le dan play,
+           así quien entra por celular no gasta datos de gratis. -->
+      <div class="video-marco">
+        <!-- Sin "controls": los agrega app.js al darle play, para que antes solo
+             se vea la portada limpia con el botón dorado. -->
+        <video id="sv-video" poster="img/video-portada.jpg" preload="none"
+               playsinline loop
+               aria-label="Video de Sabor Vinotinto">
+          <source src="img/video.mp4" type="video/mp4">
+          Tu navegador no puede reproducir el video.
+        </video>
+        <button class="video-play" id="video-play" aria-label="Reproducir video">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRODUCTOS ── -->
+<section id="sv-productos">
+  <div class="wrap">
+    <div id="sec-prod" class="sv-hidden" style="margin-bottom:16px">
+      <div class="sec-kicker">— Catálogo</div>
+      <h2 class="sec-titulo">Nuestros<br><em>Productos</em></h2>
+    </div>
+    <p id="sec-prod-p" class="sv-hidden sec-p">Auténticos sabores venezolanos importados con amor. Agrega al carrito y genera tu pedido.</p>
+
+    <div id="filtros"></div>
+    <div id="prod-grid" class="prod-grid"></div>
+
+    <div id="prod-cta" class="sv-hidden" style="text-align:center;margin-top:52px">
+      <a class="btn-ghost" style="border-color:rgba(201,162,39,.4);color:#C9A227" data-wa-link="Hola! Quiero preguntar por otros productos" href="#" target="_blank" rel="noopener">
+        ¿Buscas algo que no está? Escríbenos →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CÓMO COMPRAR ── -->
+<section id="sv-como">
+  <div class="wrap" style="max-width:1100px">
+    <div id="sec-como" class="sv-left" style="margin-bottom:72px">
+      <div class="sec-kicker">— Proceso</div>
+      <h2 class="sec-titulo">¿Cómo <em>comprar?</em></h2>
+    </div>
+    <div class="pasos">
+      <div class="pasos-linea"></div>
+      <div class="step-card sv-hidden">
+        <div class="step-num">1</div>
+        <div class="step-emoji">🛒</div>
+        <h3>Arma tu pedido</h3>
+        <p>Agrega al carrito los productos que quieras y ajusta las cantidades.</p>
+      </div>
+      <div class="step-card sv-hidden">
+        <div class="step-num">2</div>
+        <div class="step-emoji">📱</div>
+        <h3>Dale al botón verde</h3>
+        <p>Al pulsar <strong style="color:#25D366">Enviar pedido por WhatsApp</strong>
+           se abre el chat con tu pedido ya escrito: cada producto, las cantidades
+           y el total. Solo le das enviar y nos llega al
+           <strong data-wa-texto style="color:#F5E9C8"></strong></p>
+      </div>
+      <div class="step-card sv-hidden">
+        <div class="step-num">3</div>
+        <div class="step-emoji">🚚</div>
+        <h3>Confirmamos y enviamos</h3>
+        <p>Acordamos pago y envío. Transferencia o efectivo.</p>
+      </div>
+      <div class="step-card sv-hidden">
+        <div class="step-num">4</div>
+        <div class="step-emoji">😋</div>
+        <h3>¡Disfruta!</h3>
+        <p>El auténtico sabor venezolano en casa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="sv-cta">
+  <div class="cta-glow"></div>
+  <div id="cta-inner" class="sv-hidden">
+    <img src="img/logo.png" alt="Sabor Vinotinto">
+    <h2>¿Listo para<br><em>pedir?</em></h2>
+    <p>Escríbenos ahora y recibe tus productos venezolanos favoritos.</p>
+    <a href="#sv-productos" class="btn-cta-oro">Ver productos y pedir</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="foot-marca">
+    <img src="img/logo.png" alt="Logo Sabor Vinotinto">
+    <div>
+      <div class="foot-nombre">SABOR VINOTINTO</div>
+      <div class="foot-sub">Productos venezolanos auténticos</div>
+    </div>
+  </div>
+  <div class="foot-bandera">
+    <div style="background:#C9A227"></div>
+    <div style="background:#003893"></div>
+    <div style="background:#CF142B"></div>
+  </div>
+  <div class="foot-der">
+    <div class="foot-social">
+      <a data-instagram href="#" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="#C9A227" stroke="none"/></svg>
+      </a>
+      <a data-tiktok href="#" target="_blank" rel="noopener" title="TikTok" aria-label="TikTok">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#C9A227" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 3.12-4.53V9.4a6.34 6.34 0 0 0-5.42 10.72 6.34 6.34 0 0 0 10.73-4.51V8.69a8.16 8.16 0 0 0 4.77 1.53V6.79a4.85 4.85 0 0 1-.78-.1z"/></svg>
+      </a>
+      <a data-wa-link="Hola Sabor Vinotinto!" href="#" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#C9A227" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.855L.036 23.682a.5.5 0 0 0 .613.613l5.827-1.497A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.826 9.826 0 0 1-5.002-1.368l-.36-.213-3.718.954.974-3.63-.234-.374A9.822 9.822 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
+      </a>
+    </div>
+    <div class="foot-copy">© 2026 Sabor Vinotinto · Colombia</div>
+    <button id="btn-admin">⚙ Admin</button>
+  </div>
+</footer>
+
+<!-- ── CARRITO ── -->
+<div id="cart-overlay"></div>
+<aside id="cart-drawer" aria-label="Carrito de compras">
+  <div class="drawer-head">
+    <h3>Tu pedido</h3>
+    <button class="btn-cerrar" id="cart-cerrar" aria-label="Cerrar carrito">✕</button>
+  </div>
+  <div id="cart-items"></div>
+  <div class="drawer-foot">
+    <div class="datos-cliente">
+      <input class="sv-input" id="cli-nombre" placeholder="Tu nombre (opcional)">
+      <input class="sv-input" id="cli-dir" placeholder="Ciudad o dirección (opcional)">
+    </div>
+    <div class="total-row">
+      <span>Total</span>
+      <span id="cart-total">$0</span>
+    </div>
+    <button id="btn-comprar" disabled>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.855L.036 23.682a.5.5 0 0 0 .613.613l5.827-1.497A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.826 9.826 0 0 1-5.002-1.368l-.36-.213-3.718.954.974-3.63-.234-.374A9.822 9.822 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
+      Enviar pedido por WhatsApp
+    </button>
+    <div class="nota-envio">Se abre WhatsApp con tu pedido listo.<br>El envío se cotiza al confirmar.</div>
+  </div>
+</aside>
+
+<!-- ── ADMIN ── -->
+<div id="admin-overlay">
+  <div id="admin-modal">
+    <div class="admin-head">
+      <div>
+        <h3>Panel de administración</h3>
+        <p>Sabor Vinotinto · datos guardados en este navegador</p>
+      </div>
+      <button class="btn-cerrar" id="admin-cerrar" aria-label="Cerrar panel">✕</button>
+    </div>
+
+    <div id="admin-login">
+      <div class="candado">🔒</div>
+      <h4>Área privada</h4>
+      <p>Ingresa la clave de administrador</p>
+      <div class="fila">
+        <input class="sv-input" id="admin-pin" type="password" placeholder="Clave" autocomplete="current-password">
+        <button class="sv-btn" id="admin-entrar">Entrar</button>
+      </div>
+      <div id="admin-error"></div>
+    </div>
+
+    <div class="admin-tabs" id="admin-tabs" style="display:none">
+      <button class="admin-tab activo" data-tab="resumen">Resumen</button>
+      <button class="admin-tab" data-tab="productos">Productos</button>
+      <button class="admin-tab" data-tab="ventas">Ventas</button>
+      <button class="admin-tab" data-tab="ajustes">Ajustes</button>
+    </div>
+    <div id="admin-body" style="display:none"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/products.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

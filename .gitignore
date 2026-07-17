@@ -1,0 +1,11 @@
+# Basura que crea Windows en las carpetas
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Basura de macOS, por si algún día abres el proyecto desde un Mac
+.DS_Store
+
+# Respaldos que descarga el panel de admin: son tuyos, no van publicados
+sabor-vinotinto-respaldo-*.json
