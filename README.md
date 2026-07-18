@@ -137,8 +137,15 @@ create table public.pedidos (
   confirmado_por text, confirmado_en timestamptz
 );
 
+-- Ajustes del negocio (el plante/inversión, editable desde el panel)
+create table public.ajustes (clave text primary key, valor text);
+insert into public.ajustes (clave, valor) values ('inversion','421799');
+
 alter table public.productos enable row level security;
 alter table public.pedidos enable row level security;
+alter table public.ajustes enable row level security;
+create policy "ajustes lee" on public.ajustes for select to anon, authenticated using (true);
+create policy "ajustes escribe" on public.ajustes for all to authenticated using (true) with check (true);
 
 -- Productos: todos leen (la tienda), solo un socio con sesión escribe
 create policy "productos lee" on public.productos for select to anon, authenticated using (true);

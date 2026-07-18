@@ -220,6 +220,24 @@ window.SVSync = (function () {
     return { ok: true };
   }
 
+  /* ── Ajustes del negocio (el plante/inversión, compartido entre socios) ── */
+  async function getInversion() {
+    try {
+      const r = await pedir('/rest/v1/ajustes?select=valor&clave=eq.inversion', { method: 'GET' }, false);
+      if (r && r.length) return parseInt(r[0].valor, 10) || 0;
+    } catch (e) { console.warn('No se pudo leer el plante de la nube', e); }
+    return null; // null = usar el de config.js como respaldo
+  }
+
+  async function setInversion(valor) {
+    await pedir('/rest/v1/ajustes', {
+      method: 'POST',
+      headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ clave: 'inversion', valor: String(Math.max(0, valor | 0)) })
+    }, true);
+    return { ok: true };
+  }
+
   /* ── Resumen para el panel (calculado desde los pedidos confirmados) ── */
   function calcularResumen(confirmados, productos) {
     const ingresos = confirmados.reduce((s, v) => s + (v.total || 0), 0);
@@ -259,6 +277,8 @@ window.SVSync = (function () {
     getPedidos: getPedidos,
     confirmarPedido: confirmarPedido,
     cancelarPedido: cancelarPedido,
+    getInversion: getInversion,
+    setInversion: setInversion,
     calcularResumen: calcularResumen
   };
 })();

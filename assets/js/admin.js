@@ -23,6 +23,7 @@
   let cacheProductos = [];      // modo nube
   let cachePendientes = [];
   let cacheConfirmados = [];
+  let cacheInversion = CFG.inversion || 0; // el plante, cargado de la nube
 
   const plata = n => '$' + Math.round(n || 0).toLocaleString('es-CO');
   function esc(str) {
@@ -61,8 +62,8 @@
   /* Tarjetas del resumen, iguales en modo nube y local. "Plante" es la inversión
      real (config.inversion); "Recuperado" es cuánto del plante ya volvió con las
      ventas. Así se ve de verdad cuánto se puso, cuánto se recuperó y la ganancia. */
-  function kpisResumen(r) {
-    const inversion = CFG.inversion || 0;
+  function kpisResumen(r, inversion) {
+    inversion = inversion || 0;
     const pct = inversion > 0 ? Math.min(100, Math.round(r.ingresos / inversion * 100)) : 0;
     const falta = inversion - r.ingresos;
     const subRecuperado = inversion <= 0 ? 'define el plante en config.js'
@@ -176,6 +177,8 @@
       }
       cachePendientes = await SYNC.getPedidos('pendiente');
       cacheConfirmados = await SYNC.getPedidos('confirmado');
+      const inv = await SYNC.getInversion();      // el plante compartido
+      cacheInversion = (inv != null) ? inv : (CFG.inversion || 0);
     } catch (e) {
       body.innerHTML = '<div class="admin-nota">No se pudo cargar desde la nube:<br>'
         + esc(e.message) + '</div>'
@@ -207,7 +210,7 @@
         ? '<div class="aviso-pendientes">Tienes <strong>' + cachePendientes.length
           + '</strong> pedido(s) esperando confirmación en la pestaña <strong>Pedidos</strong>.</div>'
         : '')
-      + kpisResumen(r)
+      + kpisResumen(r, cacheInversion)
       + '<div class="admin-sec-titulo">Más vendidos</div>'
       + (top.length
         ? '<div class="tabla-scroll"><table class="sv-tabla"><tbody>'
@@ -316,6 +319,18 @@
     return ''
       + '<div class="admin-nota">Sesión de <strong>' + esc(SYNC.socioActual()) + '</strong>. '
       + 'Los datos viven en la nube y los ven los dos socios.</div>'
+
+      + '<div class="admin-sec-titulo">Plante (inversión)</div>'
+      + '<p style="font-size:13px;color:rgba(245,233,200,.55);line-height:1.7;margin-bottom:12px">'
+      + 'Lo que llevan invertido entre los dos (mercancía + domicilio). Cuando compren '
+      + 'más mercancía, actualízalo aquí. De este número salen el % recuperado y la ganancia.</p>'
+      + '<div class="form-grid">'
+      +   '<div><label class="sv-label">Plante en pesos</label>'
+      +     '<input class="sv-input" id="f-inversion" type="number" min="0" value="' + (cacheInversion || 0) + '"></div>'
+      + '</div>'
+      + '<div class="acciones" style="margin-top:12px">'
+      +   '<button class="sv-btn" id="btn-inversion">Guardar plante</button>'
+      + '</div>'
       + '<div class="admin-sec-titulo">Mantener el respaldo de la página al día</div>'
       + '<p style="font-size:13px;color:rgba(245,233,200,.55);line-height:1.7;margin-bottom:14px">'
       + 'La página guarda una copia del catálogo (<code style="color:var(--oro)">products.js</code>) que se '
@@ -416,6 +431,16 @@
 
     const bExp = $('#btn-export-prod');
     if (bExp) bExp.addEventListener('click', () => exportarProducts(cacheProductos));
+
+    const bInv = $('#btn-inversion');
+    if (bInv) bInv.addEventListener('click', async () => {
+      const v = Math.max(0, parseInt($('#f-inversion').value, 10) || 0);
+      bInv.disabled = true;
+      try { await SYNC.setInversion(v); } catch (e) { bInv.disabled = false; return toast('⚠️ ' + e.message); }
+      cacheInversion = v;
+      toast('Plante actualizado ✓');
+      tab = 'resumen'; pintar(); // vuelve al resumen para que vea el cambio
+    });
   }
 
   async function salirNube() {
@@ -443,7 +468,7 @@
       .map(([id, cant]) => { const p = productos.find(x => x.id === id); return { nombre: p ? p.nombre : id, cant }; });
     const bajos = productos.filter(p => p.stock <= 3).sort((a, b) => a.stock - b.stock);
     return ''
-      + kpisResumen(r)
+      + kpisResumen(r, CFG.inversion || 0)
       + '<div class="admin-sec-titulo">Más vendidos</div>'
       + (top.length
         ? '<div class="tabla-scroll"><table class="sv-tabla"><tbody>'
