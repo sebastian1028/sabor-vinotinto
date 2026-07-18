@@ -756,30 +756,52 @@ body.cargado #hero-right { opacity: 1; transform: none; }
   .nav-links { gap: 12px; }
   .nav-marca span { font-size: 15px; }
   .nav-marca img { height: 40px; width: 40px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 48px; padding: 60px 20px; text-align: center; }
-  #hero-sub { margin-left: auto; margin-right: auto; }
-  #hero-btns, #hero-stats { justify-content: center; }
-  #hero-stats { gap: 24px; }
-  .stat-n { font-size: 34px; }
-  #hero-right { order: -1; }
-  .logo-wrap { width: 150px; height: 150px; }
-  .logo-wrap img { width: 126px; height: 126px; }
-  .logo-ring { width: 160px; height: 160px; }
-  .logo-glow { width: 142px; height: 142px; }
-  .video-marco { max-width: 260px; max-height: 52vh; }
-  #sv-productos, #sv-como { padding: 72px 20px; }
-  #sv-cta { padding: 80px 20px; }
+
+  /* Portada en el celular: primero el mensaje y el botón (lo que vende).
+     El logo grande sobra porque ya está en la barra de arriba; el video baja
+     y se hace compacto. Sin forzar pantalla completa, para que no queden huecos. */
+  #hero { min-height: 0; }
+  .hero-grid { grid-template-columns: 1fr; gap: 28px; padding: 32px 20px 48px; text-align: center; }
+  #hero-title { font-size: clamp(38px, 12vw, 60px); }
+  #hero-sub { margin: 0 auto; font-size: 16px; }
+  #hero-btns { justify-content: center; margin-bottom: 8px; }
+  #hero-stats { justify-content: center; gap: 22px; order: 3; }
+  .stat-n { font-size: 32px; }
+  #hero-right { order: 2; gap: 0; }
+  .logo-wrap { display: none; }             /* redundante con el logo del nav */
+  .video-marco { max-width: 230px; max-height: 42vh; }
+
+  #sv-productos, #sv-como { padding: 60px 20px; }
+  #sv-cta { padding: 72px 20px; }
   footer { padding: 32px 20px; flex-direction: column; text-align: center; }
   .foot-der { align-items: center; }
   .foot-marca { flex-direction: column; }
   #wa-float { bottom: 20px; right: 20px; }
 }
 @media (max-width: 560px) {
-  .prod-grid { grid-template-columns: 1fr; }
   #cart-drawer { width: 100%; }
   .btn-cta-oro { font-size: 16px; padding: 16px 32px; width: 100%; justify-content: center; }
   #hero-stats { gap: 16px; }
   .stat-l { font-size: 9px; letter-spacing: 1px; }
+
+  /* Catálogo de 2 por fila: se ve más como tienda y se recorre en la mitad
+     del scroll. Tarjeta compacta: foto, nombre, precio y botón. */
+  #sv-productos { padding: 52px 14px; }
+  .prod-grid { grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 28px; }
+  .prod-card { border-radius: 16px; }
+  .prod-img { height: 124px; }
+  .prod-img img { width: 100%; }
+  .prod-badge { font-size: 8px; padding: 3px 8px; top: 9px; right: 9px; }
+  .prod-stock { font-size: 8px; padding: 3px 8px; top: 9px; left: 9px; }
+  .prod-body { padding: 12px 12px 14px; }
+  .prod-nombre { font-size: 14px; margin-bottom: 4px; }
+  .prod-desc { display: none; }             /* no cabe en 2-col; el nombre ya dice qué es */
+  .prod-precio-row { margin-bottom: 10px; }
+  .prod-precio { font-size: 18px; }
+  .prod-unidad { display: none; }
+  .btn-add { font-size: 12px; padding: 10px 6px; border-radius: 40px; }
+  .sec-titulo { font-size: clamp(30px, 9vw, 44px); }
+
   /* Abajo taparía el total y el botón de comprar cuando el carrito está abierto. */
   #toast { bottom: auto; top: 84px; transform: translateX(-50%) translateY(-20px); }
   #toast.visible { transform: translateX(-50%) translateY(0); }
