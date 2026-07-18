@@ -16,5 +16,17 @@ window.SV_CONFIG = {
 
   // Número que sale en "PRODUCTOS" del hero. Es un texto libre, no lo calcula
   // el catálogo: cámbialo cuando quieras (ej: '+25', '+50').
-  productosTexto: '+25'
+  productosTexto: '+25',
+
+  /* ── Ventas compartidas entre socios (Supabase) ──
+     Pega aquí los dos datos de tu proyecto de Supabase (Project Settings → API).
+     Los pasos completos están en el README.
+
+     Mientras estén vacíos, la página funciona en modo local: la tienda muestra
+     el catálogo normal y el panel de admin usa el guardado de este navegador.
+
+     La llave "anon" es pública a propósito; no hay problema en subirla a GitHub.
+     NUNCA pegues aquí la llave "service_role". */
+  supabaseUrl: '',
+  supabaseAnonKey: ''
 };

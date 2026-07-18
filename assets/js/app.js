@@ -58,6 +58,28 @@
   }
   window.SVToast = toast;
 
+  const SYNC = window.SVSync;
+
+  /* Si hay nube conectada, el catálogo de verdad (precio y stock que ven los dos
+     socios) vive en Supabase. Se pinta primero products.js (instantáneo, siempre
+     funciona) y en cuanto responde la nube se repinta con los datos frescos.
+     Si la nube falla o está vacía, se queda con products.js: la tienda nunca
+     queda en blanco. */
+  async function cargarCatalogoNube() {
+    if (!SYNC || !SYNC.configurado()) return;
+    try {
+      const prods = await SYNC.getProductos();
+      if (prods && prods.length) {
+        S.setProductos(prods);
+        pintarFiltros();
+        pintarCatalogo();
+        pintarCarrito();
+      }
+    } catch (e) {
+      console.warn('No se pudo leer el catálogo de la nube, usando el local', e);
+    }
+  }
+
   /* ── Catálogo ── */
   let filtroActivo = 'Todos';
 
@@ -341,10 +363,27 @@
 
     $('#datos-error').textContent = '';
     guardarDatos(d);
+
+    // Si hay nube, el pedido cae solo en el panel de los socios como "pendiente".
+    // Es un intento en segundo plano: si falla, el cliente igual manda su pedido
+    // por WhatsApp, así que nunca bloquea la compra.
+    if (SYNC && SYNC.configurado()) {
+      SYNC.crearPedido({
+        items: items.map(l => ({
+          id: l.id, nombre: l.nombre, precio: l.precio,
+          costo: l.costo || 0, cant: l.cant, subtotal: l.subtotal
+        })),
+        total: S.totalCarrito(),
+        costoTotal: items.reduce((s, l) => s + (l.costo || 0) * l.cant, 0),
+        cliente: d.nombre, telefono: d.tel, ciudad: d.ciudad,
+        direccion: d.dir, ubicacion: ubicacion || ''
+      }).catch(e => console.warn('No se pudo registrar el pedido en la nube', e));
+    }
+
     window.open(waLink(textoPedido(items, S.totalCarrito(), d)), '_blank');
 
-    // El stock real se descuenta cuando el admin confirma el pedido en el panel:
-    // abrir WhatsApp no garantiza que el mensaje se haya enviado.
+    // El stock real se descuenta cuando un socio confirma el pedido en el panel:
+    // abrir WhatsApp no garantiza que el cliente haya enviado el mensaje.
     toast('Abriendo WhatsApp… ¡Gracias por tu pedido!');
   }
 
@@ -445,6 +484,7 @@
     pintarFiltros();
     pintarCatalogo();
     pintarCarrito();
+    cargarCatalogoNube(); // si hay nube, refresca precio/stock reales
 
     observarRevelado(document.querySelectorAll('.sv-hidden, .sv-left, .sv-right'));
     observarRevelado(document.querySelectorAll('.testi-card'), true);

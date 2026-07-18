@@ -82,39 +82,110 @@ sacarle una portada nueva.
 
 ## El panel de admin
 
-Botón **⚙ Admin** al final de la página. La clave está en `config.js`.
+Botón **⚙ Admin** al final de la página. Funciona en dos modos:
 
-- **Resumen**: pedidos, ingresos, ganancia, stock y más vendidos.
-- **Productos**: cambiar stock y precios, agregar o borrar productos.
-- **Ventas**: registrar pedidos y ver el historial.
-- **Ajustes**: exportar, respaldar y restaurar.
+- **Modo nube** (con Supabase conectado): los dos socios entran con su correo y
+  contraseña y comparten los mismos datos. Los pedidos de los clientes caen
+  solos como "pendientes"; al confirmarlos baja el stock y cuentan como venta.
+- **Modo local** (sin Supabase): con la clave de `config.js`, datos solo en este
+  navegador. Es el respaldo mientras no conectes la nube.
 
-### Cómo registrar una venta
+Pestañas: **Resumen** (ventas, ingresos, ganancia, stock), **Pedidos** (nube) o
+**Ventas** (local), **Productos** y **Ajustes**.
 
-Cuando te llegue un pedido por WhatsApp, **copia el mensaje completo** y pégalo
-en Admin → Ventas → *Pegar pedido*. La página lo lee, registra la venta y
-descuenta el stock. También puedes registrar a mano.
+## Conectar la nube (Supabase) para los dos socios
 
-### ⚠️ Dónde viven los datos (importante)
+Para que socio 1 y socio 2 vean lo mismo, los datos van a Supabase (gratis, sin
+tarjeta). Mientras no lo conectes, el admin funciona en modo local y la página
+sigue normal.
 
-El stock y las ventas se guardan **en el navegador donde los escribiste**,
-no en internet. O sea:
+### 1. Crea el proyecto
+1. Entra a [supabase.com](https://supabase.com), crea cuenta y **New project**.
+2. Ponle nombre y una contraseña de base de datos (guárdala). Región: la más cercana.
 
-- Si abres el admin desde otro celular o computador, **no vas a ver esos datos**.
-- Si limpias el caché del navegador, **se borran**.
-- Tus clientes no ven los cambios de stock hasta que publiques (ver abajo).
+### 2. Crea las tablas
+**SQL Editor → New query**, pega TODO esto y dale **Run**:
 
-Por eso: **descarga un respaldo cada tanto** desde Ajustes → *Descargar respaldo*.
+```sql
+-- Catálogo (precio, costo, stock) compartido
+create table public.productos (
+  id text primary key,
+  nombre text not null,
+  categoria text,
+  precio integer not null default 0,
+  costo integer not null default 0,
+  stock integer not null default 0,
+  emoji text, img text, descripcion text, badge text,
+  orden integer default 0
+);
 
-Si más adelante quieres stock y ventas de verdad compartidos entre dispositivos,
-hay que conectar un backend (Supabase tiene plan gratis). El código está separado
-para que eso solo implique reescribir `store.js`.
+-- Pedidos que hacen los clientes
+create table public.pedidos (
+  id bigint generated always as identity primary key,
+  creado timestamptz not null default now(),
+  estado text not null default 'pendiente' check (estado in ('pendiente','confirmado','cancelado')),
+  items jsonb not null,
+  total integer not null,
+  costo_total integer not null default 0,
+  cliente text, telefono text, ciudad text, direccion text, ubicacion text,
+  confirmado_por text, confirmado_en timestamptz
+);
 
-### Cómo publico los cambios para mis clientes
+alter table public.productos enable row level security;
+alter table public.pedidos enable row level security;
 
-1. Admin → Ajustes → **Exportar products.js**
-2. Sube ese archivo a GitHub reemplazando `assets/js/products.js`
-3. En 1–2 minutos la página pública queda actualizada
+-- Productos: todos leen (la tienda), solo un socio con sesión escribe
+create policy "productos lee" on public.productos for select to anon, authenticated using (true);
+create policy "productos escribe" on public.productos for all to authenticated using (true) with check (true);
+
+-- Pedidos: cualquiera crea uno pendiente; solo un socio lee y actualiza
+create policy "pedido crea" on public.pedidos for insert to anon, authenticated with check (estado = 'pendiente');
+create policy "pedido lee" on public.pedidos for select to authenticated using (true);
+create policy "pedido actualiza" on public.pedidos for update to authenticated using (true) with check (true);
+
+-- Confirmar una venta: marca el pedido y descuenta stock en una sola operación
+create or replace function public.confirmar_pedido(pid bigint, socio text)
+returns void language plpgsql security definer set search_path = public as $$
+declare it jsonb;
+begin
+  update public.pedidos set estado='confirmado', confirmado_por=socio, confirmado_en=now()
+    where id=pid and estado='pendiente';
+  if not found then raise exception 'El pedido ya no está pendiente'; end if;
+  for it in select jsonb_array_elements(items) from public.pedidos where id=pid loop
+    update public.productos set stock = greatest(0, stock - (it->>'cant')::int)
+      where id = it->>'id';
+  end loop;
+end $$;
+revoke all on function public.confirmar_pedido(bigint, text) from anon;
+grant execute on function public.confirmar_pedido(bigint, text) to authenticated;
+```
+
+### 3. Crea los dos socios
+**Authentication → Users → Add user** (dos veces). A cada uno, correo y
+contraseña, y activa **Auto Confirm User**. Con eso entran al panel.
+
+### 4. Conecta la página
+**Project Settings → API**, copia y pega en `assets/js/config.js`:
+- **Project URL** → `supabaseUrl`
+- **anon public** → `supabaseAnonKey`
+
+Sube el `config.js` a GitHub y listo: el panel pide correo y contraseña, y los
+datos quedan compartidos.
+
+> La llave `anon` es pública a propósito (no da permisos: manda la base de datos).
+> **Nunca** pegues la `service_role`.
+
+### La primera vez
+El primer socio que entre siembra el catálogo en la nube desde `products.js`
+(pasa solo). Desde ahí, lo que cambien en Productos lo ven los dos y los clientes.
+
+### Cómo publican cambios del catálogo
+En **modo nube**, cambiar precio/stock/productos se ve al instante (no hay que
+subir nada). Solo conviene, de vez en cuando, **Ajustes → Exportar products.js**
+y subirlo a GitHub para mantener fresca la copia de respaldo que carga la tienda
+mientras responde la nube.
+
+En **modo local**: Ajustes → Exportar products.js → subir a GitHub.
 
 ## Publicar en GitHub Pages
 

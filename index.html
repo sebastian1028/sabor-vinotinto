@@ -320,28 +320,25 @@
     <div class="admin-head">
       <div>
         <h3>Panel de administración</h3>
-        <p>Sabor Vinotinto · datos guardados en este navegador</p>
+        <p id="admin-sub">Sabor Vinotinto</p>
       </div>
       <button class="btn-cerrar" id="admin-cerrar" aria-label="Cerrar panel">✕</button>
     </div>
 
     <div id="admin-login">
       <div class="candado">🔒</div>
-      <h4>Área privada</h4>
-      <p>Ingresa la clave de administrador</p>
-      <div class="fila">
+      <h4 id="login-titulo">Área privada</h4>
+      <p id="login-sub">Ingresa la clave</p>
+      <div class="login-campos">
+        <input class="sv-input" id="admin-correo" type="email" placeholder="Correo" autocomplete="username" style="display:none">
         <input class="sv-input" id="admin-pin" type="password" placeholder="Clave" autocomplete="current-password">
         <button class="sv-btn" id="admin-entrar">Entrar</button>
       </div>
       <div id="admin-error"></div>
     </div>
 
-    <div class="admin-tabs" id="admin-tabs" style="display:none">
-      <button class="admin-tab activo" data-tab="resumen">Resumen</button>
-      <button class="admin-tab" data-tab="productos">Productos</button>
-      <button class="admin-tab" data-tab="ventas">Ventas</button>
-      <button class="admin-tab" data-tab="ajustes">Ajustes</button>
-    </div>
+    <!-- Las pestañas las genera admin.js según el modo (local o nube) -->
+    <div class="admin-tabs" id="admin-tabs" style="display:none"></div>
     <div id="admin-body" style="display:none"></div>
   </div>
 </div>
@@ -351,6 +348,7 @@
 <script src="assets/js/config.js"></script>
 <script src="assets/js/products.js"></script>
 <script src="assets/js/store.js"></script>
+<script src="assets/js/sync.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/admin.js"></script>
 </body>
