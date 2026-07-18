@@ -27,6 +27,6 @@ window.SV_CONFIG = {
 
      La llave "anon" es pública a propósito; no hay problema en subirla a GitHub.
      NUNCA pegues aquí la llave "service_role". */
-  supabaseUrl: '',
-  supabaseAnonKey: ''
+  supabaseUrl: 'https://ybhwrzlttoenvrlijgmz.supabase.co',
+  supabaseAnonKey: 'sb_publishable_vPHNCP3GuN8YlwWxLcxeqQ_7-a6B0dA'
 };

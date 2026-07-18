@@ -104,9 +104,15 @@ sigue normal.
 2. Ponle nombre y una contraseña de base de datos (guárdala). Región: la más cercana.
 
 ### 2. Crea las tablas
-**SQL Editor → New query**, pega TODO esto y dale **Run**:
+**SQL Editor → New query**, pega TODO esto y dale **Run**. Ojo: copia solo el SQL,
+NO la palabra "sql" ni las comillas ``` de arriba/abajo. Los tres `drop` del
+inicio dejan correrlo varias veces sin miedo (limpia lo que hubiera a medias):
 
 ```sql
+drop function if exists public.confirmar_pedido(bigint, text);
+drop table if exists public.pedidos;
+drop table if exists public.productos;
+
 -- Catálogo (precio, costo, stock) compartido
 create table public.productos (
   id text primary key,

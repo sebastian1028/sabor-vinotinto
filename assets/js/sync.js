@@ -95,7 +95,12 @@ window.SVSync = (function () {
       });
       const d = await r.json();
       if (!r.ok || !d.access_token) {
-        return { ok: false, msg: d.error_description || d.msg || 'Correo o contraseña incorrectos' };
+        // El servidor responde en inglés; se traducen los casos comunes.
+        const cod = d.error_code || d.error || '';
+        let msg = d.error_description || d.msg || 'No se pudo entrar';
+        if (/invalid_credentials|invalid login/i.test(cod + ' ' + msg)) msg = 'Correo o contraseña incorrectos';
+        else if (/email not confirmed/i.test(msg)) msg = 'Ese usuario no está confirmado (actívalo en Supabase)';
+        return { ok: false, msg: msg };
       }
       guardarSesion({ access_token: d.access_token, refresh_token: d.refresh_token, correo: correo.trim() });
       return { ok: true };
