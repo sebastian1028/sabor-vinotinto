@@ -244,7 +244,7 @@
       + '<div class="admin-sec-titulo">Ventas confirmadas (' + cacheConfirmados.length + ')</div>'
       + (cacheConfirmados.length
         ? '<div class="tabla-scroll"><table class="sv-tabla"><thead><tr>'
-          + '<th>Pedido</th><th>Productos</th><th class="num">Total</th></tr></thead><tbody>'
+          + '<th>Pedido</th><th>Productos</th><th class="num">Total</th><th></th></tr></thead><tbody>'
           + cacheConfirmados.map(v => '<tr>'
             + '<td><div style="font-weight:800;color:var(--crema)">' + esc(v.cliente || 'Cliente') + '</div>'
             +   '<div class="admin-tenue" style="font-size:11px">' + esc(fecha(v.creado)) + '</div>'
@@ -253,6 +253,7 @@
             + '<td style="font-size:12px;color:rgba(245,233,200,.6)">'
             +   (v.items || []).map(l => esc(l.cant + ' × ' + l.nombre)).join('<br>') + '</td>'
             + '<td class="num" style="color:var(--oro);font-weight:800">' + plata(v.total) + '</td>'
+            + '<td class="num"><button class="sv-btn peligro mini" data-anular-venta="' + v.id + '">Anular</button></td>'
             + '</tr>').join('')
           + '</tbody></table></div>'
         : '<p class="admin-tenue">Todavía no has confirmado ninguna venta.</p>');
@@ -369,6 +370,17 @@
       b.disabled = true;
       try { await SYNC.cancelarPedido(parseInt(b.dataset.cancelar, 10)); } catch (e) { toast('⚠️ ' + e.message); b.disabled = false; return; }
       toast('Pedido cancelado');
+      pintar();
+    }));
+
+    // Anular una venta ya confirmada: devuelve el stock y la saca de las ventas
+    body.querySelectorAll('[data-anular-venta]').forEach(b => b.addEventListener('click', async () => {
+      if (!confirm('¿Anular esta venta? El stock de esos productos vuelve al inventario y deja de contar como venta y ganancia.')) return;
+      b.disabled = true;
+      const r = await SYNC.anularVenta(parseInt(b.dataset.anularVenta, 10));
+      if (!r.ok) { toast('⚠️ ' + (r.msg || 'No se pudo')); b.disabled = false; return; }
+      toast('Venta anulada, stock devuelto');
+      refrescarTienda();
       pintar();
     }));
 

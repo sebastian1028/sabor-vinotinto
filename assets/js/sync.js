@@ -220,6 +220,21 @@ window.SVSync = (function () {
     return { ok: true };
   }
 
+  // Deshace una venta ya confirmada (por si se confirmó por error): devuelve el
+  // stock al inventario y la saca de las ventas. Lo hace la función de la base
+  // de datos, en una sola operación, para que quede todo cuadrado.
+  async function anularVenta(id) {
+    try {
+      await pedir('/rest/v1/rpc/anular_venta', {
+        method: 'POST', headers: { 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ pid: id })
+      }, true);
+      return { ok: true };
+    } catch (e) {
+      return { ok: false, msg: e.message };
+    }
+  }
+
   /* ── Ajustes del negocio (el plante/inversión, compartido entre socios) ── */
   async function getInversion() {
     try {
@@ -277,6 +292,7 @@ window.SVSync = (function () {
     getPedidos: getPedidos,
     confirmarPedido: confirmarPedido,
     cancelarPedido: cancelarPedido,
+    anularVenta: anularVenta,
     getInversion: getInversion,
     setInversion: setInversion,
     calcularResumen: calcularResumen
