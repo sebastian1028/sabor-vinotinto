@@ -18,6 +18,11 @@ window.SV_CONFIG = {
   // el catálogo: cámbialo cuando quieras (ej: '+25', '+50').
   productosTexto: '+25',
 
+  // Plante: lo que invirtieron entre los dos (mercancía + domicilio + lo que sea).
+  // De aquí sale cuánto han recuperado y la ganancia real. Cuando compren más
+  // mercancía, suma lo nuevo a este número. En pesos, sin puntos.
+  inversion: 421799,
+
   /* ── Ventas compartidas entre socios (Supabase) ──
      Pega aquí los dos datos de tu proyecto de Supabase (Project Settings → API).
      Los pasos completos están en el README.

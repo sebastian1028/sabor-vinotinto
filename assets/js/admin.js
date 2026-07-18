@@ -58,6 +58,25 @@
       + '<div class="kpi-s">' + esc(sub) + '</div></div>';
   }
 
+  /* Tarjetas del resumen, iguales en modo nube y local. "Plante" es la inversión
+     real (config.inversion); "Recuperado" es cuánto del plante ya volvió con las
+     ventas. Así se ve de verdad cuánto se puso, cuánto se recuperó y la ganancia. */
+  function kpisResumen(r) {
+    const inversion = CFG.inversion || 0;
+    const pct = inversion > 0 ? Math.min(100, Math.round(r.ingresos / inversion * 100)) : 0;
+    const falta = inversion - r.ingresos;
+    const subRecuperado = inversion <= 0 ? 'define el plante en config.js'
+      : (falta > 0 ? 'faltan ' + plata(falta) : '¡plante recuperado! 🎉');
+    return '<div class="kpi-grid">'
+      + kpi('Ventas', r.pedidos, r.unidades + ' unidades')
+      + kpi('Ingresos', plata(r.ingresos), 'lo que ha entrado')
+      + kpi('Ganancia', plata(r.ganancia), 'margen (venta − costo)')
+      + kpi('Plante', plata(inversion), 'lo que invirtieron')
+      + kpi('Recuperado', pct + '%', subRecuperado)
+      + kpi('En stock', r.stockTotal, r.agotados + ' agotado(s)')
+      + '</div>';
+  }
+
   /* Vuelve a pintar la tienda para que refleje los cambios del admin. */
   function refrescarTienda() {
     if (window.SVPintarCatalogo) window.SVPintarCatalogo();
@@ -188,13 +207,7 @@
         ? '<div class="aviso-pendientes">Tienes <strong>' + cachePendientes.length
           + '</strong> pedido(s) esperando confirmación en la pestaña <strong>Pedidos</strong>.</div>'
         : '')
-      + '<div class="kpi-grid">'
-      +   kpi('Ventas', r.pedidos, r.unidades + ' unidades')
-      +   kpi('Ingresos', plata(r.ingresos), 'total facturado')
-      +   kpi('Ganancia', plata(r.ganancia), 'venta menos costo')
-      +   kpi('En stock', r.stockTotal, r.agotados + ' agotado(s)')
-      +   kpi('Inventario', plata(r.valorInventario), 'valor a precio de venta')
-      + '</div>'
+      + kpisResumen(r)
       + '<div class="admin-sec-titulo">Más vendidos</div>'
       + (top.length
         ? '<div class="tabla-scroll"><table class="sv-tabla"><tbody>'
@@ -430,13 +443,7 @@
       .map(([id, cant]) => { const p = productos.find(x => x.id === id); return { nombre: p ? p.nombre : id, cant }; });
     const bajos = productos.filter(p => p.stock <= 3).sort((a, b) => a.stock - b.stock);
     return ''
-      + '<div class="kpi-grid">'
-      +   kpi('Pedidos', r.pedidos, r.unidades + ' unidades vendidas')
-      +   kpi('Ingresos', plata(r.ingresos), 'total facturado')
-      +   kpi('Ganancia', plata(r.ganancia), 'venta menos costo')
-      +   kpi('En stock', r.stockTotal, r.agotados + ' agotado(s)')
-      +   kpi('Inventario', plata(r.valorInventario), 'valor a precio de venta')
-      + '</div>'
+      + kpisResumen(r)
       + '<div class="admin-sec-titulo">Más vendidos</div>'
       + (top.length
         ? '<div class="tabla-scroll"><table class="sv-tabla"><tbody>'
