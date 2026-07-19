@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=4">
+<link rel="stylesheet" href="assets/css/style.css?v=5">
 </head>
 <body>
 
@@ -83,7 +83,7 @@
         <span id="split-line2">que extrañas</span>
         <span id="split-line3">en Colombia</span>
       </h1>
-      <p id="hero-sub">El Chichero, Malta, Mavesa, Toddy y más productos venezolanos auténticos llegando directo a tu puerta.</p>
+      <p id="hero-sub">El Chichero, Maltín, Mavesa, Toddy y más productos venezolanos auténticos llegando directo a tu puerta.</p>
       <div id="hero-btns">
         <a href="#sv-productos" class="btn-oro">Ver Productos</a>
         <a href="#sv-como" class="btn-ghost">Cómo pedir</a>
@@ -235,7 +235,6 @@
       </a>
     </div>
     <div class="foot-copy">© 2026 Sabor Vinotinto · Colombia</div>
-    <button id="btn-admin">⚙ Admin</button>
   </div>
 </footer>
 
@@ -314,44 +313,13 @@
   </div>
 </aside>
 
-<!-- ── ADMIN ── -->
-<div id="admin-overlay">
-  <div id="admin-modal">
-    <div class="admin-head">
-      <div>
-        <h3>Panel de administración</h3>
-        <p id="admin-sub">Sabor Vinotinto</p>
-      </div>
-      <button class="btn-cerrar" id="admin-cerrar" aria-label="Cerrar panel">✕</button>
-    </div>
-
-    <div id="admin-login">
-      <div class="candado">🔒</div>
-      <h4 id="login-titulo">Área privada</h4>
-      <p id="login-sub">Ingresa la clave</p>
-      <div class="login-campos">
-        <input class="sv-input" id="admin-correo" type="email" placeholder="Correo" autocomplete="username" style="display:none">
-        <input class="sv-input" id="admin-pin" type="password" placeholder="Clave" autocomplete="current-password">
-        <button class="sv-btn" id="admin-entrar">Entrar</button>
-      </div>
-      <div id="admin-error"></div>
-    </div>
-
-    <!-- Las pestañas las genera admin.js según el modo (local o nube) -->
-    <div class="admin-tabs" id="admin-tabs" style="display:none"></div>
-    <div id="admin-body" style="display:none"></div>
-  </div>
-</div>
-
 <div id="toast"></div>
 
 <!-- El ?v=N obliga al navegador a bajar la versión nueva y no una guardada vieja.
      Al publicar un cambio, sube el número (v=3 → v=4) en TODAS estas líneas. -->
-<script src="assets/js/config.js?v=4"></script>
-<script src="assets/js/products.js?v=4"></script>
-<script src="assets/js/store.js?v=4"></script>
-<script src="assets/js/sync.js?v=4"></script>
-<script src="assets/js/app.js?v=4"></script>
-<script src="assets/js/admin.js?v=4"></script>
+<script src="assets/js/config.js?v=5"></script>
+<script src="assets/js/products.js?v=5"></script>
+<script src="assets/js/store.js?v=5"></script>
+<script src="assets/js/app.js?v=5"></script>
 </body>
 </html>
