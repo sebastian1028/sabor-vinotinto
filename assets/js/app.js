@@ -28,7 +28,7 @@
   function miniatura(p) {
     const emoji = '<span class="foto-emoji">' + esc(p.emoji || '📦') + '</span>';
     const img = p.img
-      ? '<img src="' + esc(p.img) + '" alt="" loading="lazy" data-intento="0"'
+      ? '<img src="' + esc(p.img) + '" alt="" data-intento="0"'
         + ' onload="this.parentNode.classList.add(\'con-foto\')"'
         + ' onerror="window.SVFotoFallo(this)">'
       : '';
@@ -89,10 +89,33 @@
       const mapa = {};
       filas.forEach(f => { mapa[normNombre(f.nombre)] = f.stock; });
       stockPorNombre = mapa;
-      pintarCatalogo(); // repinta marcando los agotados
+      aplicarStock(); // marca los agotados SIN regenerar las tarjetas (evita parpadeo)
     } catch (e) {
       console.warn('No se pudo leer el stock (se muestra todo disponible)', e);
     }
+  }
+
+  /* Actualiza el estado "agotado" de las tarjetas ya pintadas, sin recrearlas
+     (no recarga las fotos ni reinicia la animación de entrada). */
+  function aplicarStock() {
+    document.querySelectorAll('#prod-grid .prod-card').forEach(card => {
+      const p = S.getProducto(card.dataset.id);
+      if (!p) return;
+      const ag = estaAgotado(p);
+      card.classList.toggle('agotado', ag);
+      const btn = card.querySelector('.btn-add');
+      if (btn) {
+        btn.disabled = ag;
+        btn.textContent = ag ? 'Agotado' : '＋ Agregar al carrito';
+      }
+      const cajaImg = card.querySelector('.prod-img');
+      let pill = cajaImg.querySelector('.prod-stock');
+      if (ag && !pill) {
+        cajaImg.insertAdjacentHTML('beforeend', '<span class="prod-stock agotado-pill">AGOTADO</span>');
+      } else if (!ag && pill) {
+        pill.remove();
+      }
+    });
   }
 
   /* ── Catálogo ── */
@@ -176,6 +199,12 @@
     });
 
     observarRevelado(grid.querySelectorAll('.sv-scale'), true);
+    // Respaldo: si por lo que sea el observador no alcanza a revelar alguna
+    // tarjeta, a los 1.2 s se muestran todas igual (nunca quedan invisibles).
+    clearTimeout(pintarCatalogo._t);
+    pintarCatalogo._t = setTimeout(() => {
+      grid.querySelectorAll('.sv-scale:not(.visible)').forEach(el => el.classList.add('visible'));
+    }, 1200);
   }
   window.SVPintarCatalogo = function () { pintarFiltros(); pintarCatalogo(); };
 
