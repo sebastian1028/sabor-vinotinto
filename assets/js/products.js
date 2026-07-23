@@ -12,7 +12,7 @@ window.SV_PRODUCTS = [
     emoji: '🫙',
     img: 'img/productos/mayonesa-mavesa-910.jpg',
     desc: 'La mayonesa favorita de Venezuela. Suave, cremosa y con ese sabor que tanto se extraña.',
-    badge: 'POPULAR'
+    badge: ''
   },
   {
     id: 'margarina-mavesa-500',
@@ -52,7 +52,7 @@ window.SV_PRODUCTS = [
     emoji: '🍺',
     img: 'img/productos/maltin-355.jpg',
     desc: 'La malta venezolana por excelencia, rica en vitaminas del grupo B.',
-    badge: 'CLÁSICO'
+    badge: ''
   },
   {
     id: 'chichero-500',
@@ -102,7 +102,7 @@ window.SV_PRODUCTS = [
     emoji: '🥫',
     img: 'img/productos/diablito-115.jpg',
     desc: 'Jamón endiablado Underwood. El clásico infaltable para las meriendas.',
-    badge: 'POPULAR'
+    badge: ''
   },
   {
     id: 'diablito-54',
