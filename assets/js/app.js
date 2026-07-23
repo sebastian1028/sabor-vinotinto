@@ -199,12 +199,6 @@
     });
 
     observarRevelado(grid.querySelectorAll('.sv-scale'), true);
-    // Respaldo: si por lo que sea el observador no alcanza a revelar alguna
-    // tarjeta, a los 1.2 s se muestran todas igual (nunca quedan invisibles).
-    clearTimeout(pintarCatalogo._t);
-    pintarCatalogo._t = setTimeout(() => {
-      grid.querySelectorAll('.sv-scale:not(.visible)').forEach(el => el.classList.add('visible'));
-    }, 1200);
   }
   window.SVPintarCatalogo = function () { pintarFiltros(); pintarCatalogo(); };
 
