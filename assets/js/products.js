@@ -31,8 +31,6 @@ window.SV_PRODUCTS = [
     precio: 20700,
     emoji: '🧀',
     img: 'img/productos/rikesa-cheddar-300.jpg',
-    // La foto tiene fondo claro; el recuadro va crema para que no desentone.
-    bg: '#f4efe2',
     desc: 'Queso cheddar para untar, con vitaminas A, B2, D y calcio. Delicioso en tostadas.',
     badge: ''
   },
@@ -48,7 +46,7 @@ window.SV_PRODUCTS = [
   },
   {
     id: 'maltin-355',
-    nombre: 'Maltín 355 ml',
+    nombre: 'Malta Maltín Polar lata 355 ml',
     categoria: 'Bebidas',
     precio: 3800,
     emoji: '🍺',
@@ -58,7 +56,7 @@ window.SV_PRODUCTS = [
   },
   {
     id: 'chichero-500',
-    nombre: 'Chichero 500 ml',
+    nombre: 'Chicha 500 ml',
     categoria: 'Bebidas',
     precio: 9000,
     emoji: '🥛',
@@ -68,7 +66,7 @@ window.SV_PRODUCTS = [
   },
   {
     id: 'chichero-1l',
-    nombre: 'Chichero 1 litro',
+    nombre: 'Chicha 1 litro',
     categoria: 'Bebidas',
     precio: 15900,
     emoji: '🥛',
