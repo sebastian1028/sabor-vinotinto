@@ -598,6 +598,11 @@ body.cargado #hero-right { opacity: 1; transform: none; }
   .nav-marca span { font-size: 15px; }
   .nav-marca img { height: 40px; width: 40px; }
 
+  /* En el celular las tarjetas de producto aparecen directo (sin animación de
+     entrada): animar 16 fotos a la vez traba el scroll en móviles. La animación
+     se conserva en computador, donde va fluida. */
+  .prod-card.sv-scale { opacity: 1; transform: none; transition: border-color .25s, box-shadow .25s; }
+
   /* Portada en el celular: primero el mensaje y el botón (lo que vende).
      El logo grande sobra porque ya está en la barra de arriba; el video baja
      y se hace compacto. Sin forzar pantalla completa, para que no queden huecos. */

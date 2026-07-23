@@ -28,7 +28,7 @@
   function miniatura(p) {
     const emoji = '<span class="foto-emoji">' + esc(p.emoji || '📦') + '</span>';
     const img = p.img
-      ? '<img src="' + esc(p.img) + '" alt="" data-intento="0"'
+      ? '<img src="' + esc(p.img) + '" alt="" decoding="async" data-intento="0"'
         + ' onload="this.parentNode.classList.add(\'con-foto\')"'
         + ' onerror="window.SVFotoFallo(this)">'
       : '';
@@ -471,22 +471,25 @@
     video.addEventListener('pause', () => marco.classList.remove('reproduciendo'));
   }
 
-  function barraProgreso() {
+  /* Un solo listener de scroll para la barra de progreso y el nav, agrupado con
+     requestAnimationFrame: hace el trabajo una vez por cuadro, no en cada evento.
+     Así el scroll queda liviano (importante en el celular). */
+  function conectarScroll() {
     const bar = $('#progress-bar');
-    if (!bar) return;
-    const actualizar = () => {
-      const alto = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.width = (alto > 0 ? (window.scrollY / alto) * 100 : 0) + '%';
-    };
-    window.addEventListener('scroll', actualizar, { passive: true });
-    actualizar();
-  }
-
-  function navGlass() {
     const nav = $('#sv-nav');
-    if (!nav) return;
-    const actualizar = () => nav.classList.toggle('scrolled', window.scrollY > 60);
-    window.addEventListener('scroll', actualizar, { passive: true });
+    let pendiente = false;
+    const actualizar = () => {
+      pendiente = false;
+      const y = window.scrollY;
+      if (bar) {
+        const alto = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = (alto > 0 ? (y / alto) * 100 : 0) + '%';
+      }
+      if (nav) nav.classList.toggle('scrolled', y > 60);
+    };
+    window.addEventListener('scroll', () => {
+      if (!pendiente) { pendiente = true; requestAnimationFrame(actualizar); }
+    }, { passive: true });
     actualizar();
   }
 
@@ -510,8 +513,7 @@
     observarRevelado(document.querySelectorAll('.sv-hidden, .sv-left, .sv-right'));
     observarRevelado(document.querySelectorAll('.testi-card'), true);
     observarRevelado(document.querySelectorAll('.step-card'), true);
-    barraProgreso();
-    navGlass();
+    conectarScroll();
     conectarVideo();
 
     requestAnimationFrame(() => document.body.classList.add('cargado'));
