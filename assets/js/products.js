@@ -25,6 +25,18 @@ window.SV_PRODUCTS = [
     badge: ''
   },
   {
+    id: 'rikesa-cheddar-300',
+    nombre: 'Rikesa Cheddar 300 g',
+    categoria: 'Untables',
+    precio: 20700,
+    emoji: '🧀',
+    img: 'img/productos/rikesa-cheddar-300.jpg',
+    // La foto tiene fondo claro; el recuadro va crema para que no desentone.
+    bg: '#f4efe2',
+    desc: 'Queso cheddar para untar, con vitaminas A, B2, D y calcio. Delicioso en tostadas.',
+    badge: ''
+  },
+  {
     id: 'margarina-mavesa-250',
     nombre: 'Margarina Mavesa 250 g',
     categoria: 'Untables',

@@ -91,9 +91,11 @@
     const stockPill = agotado
       ? '<span class="prod-stock agotado-pill">AGOTADO</span>' : '';
 
+    // Fondo del recuadro de la foto: por producto (p.bg) para las fotos de fondo claro.
+    const bg = p.bg ? ' style="background:' + esc(p.bg) + '"' : '';
     return ''
       + '<article class="prod-card sv-scale' + (agotado ? ' agotado' : '') + '" data-id="' + esc(p.id) + '">'
-      +   '<div class="prod-img foto-box">'
+      +   '<div class="prod-img foto-box"' + bg + '>'
       +     miniatura(p) + badge + stockPill
       +   '</div>'
       +   '<div class="prod-body">'
