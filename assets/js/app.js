@@ -58,6 +58,43 @@
   }
   window.SVToast = toast;
 
+  /* ── Stock en vivo (agotados) ──
+     Lee la vista stock_publico (solo nombre + stock) de la base de datos de
+     contaduría y arma un mapa por nombre. Si un producto tiene stock 0, sale
+     AGOTADO. Solo lee; si la base no responde, se queda todo disponible. */
+  let stockPorNombre = null; // null = aún sin datos
+
+  function normNombre(s) {
+    return String(s || '').toLowerCase().normalize('NFD')
+      .replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim();
+  }
+
+  // Devuelve true solo si la base dice que ese producto está en 0.
+  function estaAgotado(p) {
+    if (!stockPorNombre) return false;
+    const st = stockPorNombre[normNombre(p.nombre)];
+    return (st !== undefined && st <= 0);
+  }
+
+  async function cargarStock() {
+    const url = (CFG.stockUrl || '').replace(/\/+$/, '');
+    const key = CFG.stockKey || '';
+    if (!url || !key) return;
+    try {
+      const r = await fetch(url + '/rest/v1/stock_publico?select=nombre,stock', {
+        headers: { 'apikey': key, 'Authorization': 'Bearer ' + key }
+      });
+      if (!r.ok) throw new Error('stock ' + r.status);
+      const filas = await r.json();
+      const mapa = {};
+      filas.forEach(f => { mapa[normNombre(f.nombre)] = f.stock; });
+      stockPorNombre = mapa;
+      pintarCatalogo(); // repinta marcando los agotados
+    } catch (e) {
+      console.warn('No se pudo leer el stock (se muestra todo disponible)', e);
+    }
+  }
+
   /* ── Catálogo ── */
   let filtroActivo = 'Todos';
 
@@ -82,7 +119,7 @@
   }
 
   function tarjeta(p) {
-    const agotado = p.stock <= 0;
+    const agotado = estaAgotado(p);
 
     const badge = p.badge
       ? '<span class="prod-badge">' + esc(p.badge) + '</span>' : '';
@@ -445,6 +482,7 @@
     pintarFiltros();
     pintarCatalogo();
     pintarCarrito();
+    cargarStock(); // marca los agotados según la base de contaduría
 
     observarRevelado(document.querySelectorAll('.sv-hidden, .sv-left, .sv-right'));
     observarRevelado(document.querySelectorAll('.testi-card'), true);
