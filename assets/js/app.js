@@ -58,10 +58,12 @@
   }
   window.SVToast = toast;
 
-  /* ── Stock en vivo (agotados) ──
-     Lee la vista stock_publico (solo nombre + stock) de la base de datos de
-     contaduría y arma un mapa por nombre. Si un producto tiene stock 0, sale
-     AGOTADO. Solo lee; si la base no responde, se queda todo disponible. */
+  /* ── Stock y precios en vivo ──
+     Lee la vista stock_publico (solo nombre, stock y precio) de la base de datos
+     de contaduría y arma un mapa por nombre. Si un producto tiene stock 0, sale
+     AGOTADO; y el precio que se muestra es el de la base, no el de products.js
+     (así los precios se actualizan solos aunque cambien todos los días).
+     Solo lee; si la base no responde, se queda con lo de products.js. */
   let stockPorNombre = null; // null = aún sin datos
 
   function normNombre(s) {
@@ -80,18 +82,33 @@
     const url = (CFG.stockUrl || '').replace(/\/+$/, '');
     const key = CFG.stockKey || '';
     if (!url || !key) return;
+    const headers = { 'apikey': key, 'Authorization': 'Bearer ' + key };
     try {
-      const r = await fetch(url + '/rest/v1/stock_publico?select=nombre,stock', {
-        headers: { 'apikey': key, 'Authorization': 'Bearer ' + key }
-      });
+      // Pide también el precio. Si la vista aún no tiene esa columna, reintenta
+      // solo con nombre y stock, para que los agotados sigan funcionando.
+      let r = await fetch(url + '/rest/v1/stock_publico?select=nombre,stock,precio', { headers });
+      if (!r.ok) r = await fetch(url + '/rest/v1/stock_publico?select=nombre,stock', { headers });
       if (!r.ok) throw new Error('stock ' + r.status);
       const filas = await r.json();
       const mapa = {};
       filas.forEach(f => { mapa[normNombre(f.nombre)] = f.stock; });
       stockPorNombre = mapa;
-      aplicarStock(); // marca los agotados SIN regenerar las tarjetas (evita parpadeo)
+
+      // Actualiza el precio de cada producto con el de la base (si vino).
+      // Se muta el catálogo real (window.SV_PRODUCTS), no una copia, para que el
+      // carrito y los totales usen el precio nuevo.
+      (window.SV_PRODUCTS || []).forEach(p => {
+        const fila = filas.find(f => normNombre(f.nombre) === normNombre(p.nombre));
+        if (fila && fila.precio != null && Number(fila.precio) > 0) {
+          p.precio = Number(fila.precio);
+        }
+      });
+
+      aplicarStock();       // marca agotados SIN regenerar las tarjetas
+      aplicarPrecios();     // refresca los precios mostrados
+      if (window.SVPintarCarrito) window.SVPintarCarrito(); // por si el carrito ya estaba abierto
     } catch (e) {
-      console.warn('No se pudo leer el stock (se muestra todo disponible)', e);
+      console.warn('No se pudo leer stock/precios (se usa lo de la página)', e);
     }
   }
 
@@ -115,6 +132,16 @@
       } else if (!ag && pill) {
         pill.remove();
       }
+    });
+  }
+
+  /* Refresca el precio mostrado en cada tarjeta, sin recrearlas. */
+  function aplicarPrecios() {
+    document.querySelectorAll('#prod-grid .prod-card').forEach(card => {
+      const p = S.getProducto(card.dataset.id);
+      if (!p) return;
+      const el = card.querySelector('.prod-precio');
+      if (el) el.textContent = plata(p.precio);
     });
   }
 
