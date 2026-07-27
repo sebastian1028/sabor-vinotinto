@@ -71,10 +71,14 @@
       .replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim();
   }
 
+  // Nombre con el que buscar el producto en la base: si tiene "match" (porque en
+  // la base se llama distinto) se usa ese; si no, el nombre normal.
+  function nombreBase(p) { return p.match || p.nombre; }
+
   // Devuelve true solo si la base dice que ese producto está en 0.
   function estaAgotado(p) {
     if (!stockPorNombre) return false;
-    const st = stockPorNombre[normNombre(p.nombre)];
+    const st = stockPorNombre[normNombre(nombreBase(p))];
     return (st !== undefined && st <= 0);
   }
 
@@ -98,7 +102,7 @@
       // Se muta el catálogo real (window.SV_PRODUCTS), no una copia, para que el
       // carrito y los totales usen el precio nuevo.
       (window.SV_PRODUCTS || []).forEach(p => {
-        const fila = filas.find(f => normNombre(f.nombre) === normNombre(p.nombre));
+        const fila = filas.find(f => normNombre(f.nombre) === normNombre(nombreBase(p)));
         if (fila && fila.precio != null && Number(fila.precio) > 0) {
           p.precio = Number(fila.precio);
         }

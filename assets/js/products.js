@@ -2,7 +2,10 @@
    Es el catálogo base (nombres, fotos, categorías y precio de respaldo). El
    precio y el stock DE VERDAD los lee la página de la base de datos de contaduría
    (vista stock_publico); estos precios solo se usan si la base no responde.
-   Los nombres coinciden EXACTO con la base de datos para poder emparejar.
+   Los nombres coinciden EXACTO con la base de datos para poder emparejar el
+   stock y el precio. Si un producto se debe MOSTRAR con otro nombre (p. ej. la
+   base dice "500 kg" pero es "500 g"), se pone el nombre bonito en "nombre" y el
+   de la base en "match".
    La foto de cada producto es img/productos/<id>.jpg (mismo nombre que el id). */
 window.SV_PRODUCTS = [
   // ── Lácteos y Grasas ──
@@ -12,8 +15,8 @@ window.SV_PRODUCTS = [
   { id: 'margarina-mavesa-1kilo', nombre: 'Margarina Mavesa 1 kilo', categoria: 'Lácteos y Grasas', precio: 24200, emoji: '🧈', img: 'img/productos/margarina-mavesa-1kilo.jpg', desc: 'Margarina Mavesa en presentación familiar de 1 kilo.' },
   { id: 'rikesa-cheddar-300', nombre: 'Rikesa Cheddar 300 g', categoria: 'Lácteos y Grasas', precio: 20900, emoji: '🧀', img: 'img/productos/rikesa-cheddar-300.jpg', desc: 'Queso cheddar para untar, con vitaminas A, B2, D y calcio. Delicioso en tostadas.' },
   { id: 'rikesa-cheddar-200', nombre: 'Rikesa Cheddar 200 g', categoria: 'Lácteos y Grasas', precio: 13900, emoji: '🧀', img: 'img/productos/rikesa-cheddar-200.jpg', desc: 'Queso cheddar para untar Rikesa, presentación de 200 g.' },
-  { id: 'queso-blanco-500', nombre: 'Queso Blanco doble crema 500 kg', categoria: 'Lácteos y Grasas', precio: 15900, emoji: '🧀', img: 'img/productos/queso-blanco-500.jpg', desc: 'Queso blanco doble crema, suave y fresco. Ideal para las arepas.' },
-  { id: 'jamon-plumrose-500', nombre: 'Jamon plumrose 500 kg', categoria: 'Lácteos y Grasas', precio: 26500, emoji: '🍖', img: 'img/productos/jamon-plumrose-500.jpg', desc: 'Jamón Plumrose, perfecto para sándwiches, tequeños y picadas.' },
+  { id: 'queso-blanco-500', nombre: 'Queso Blanco doble crema 500 g', categoria: 'Lácteos y Grasas', precio: 15900, emoji: '🧀', img: 'img/productos/queso-blanco-500.jpg', desc: 'Queso blanco doble crema, suave y fresco. Ideal para las arepas.' },
+  { id: 'jamon-plumrose-500', nombre: 'Jamón Plumrose 500 g', categoria: 'Lácteos y Grasas', precio: 26500, emoji: '🍖', img: 'img/productos/jamon-plumrose-500.jpg', desc: 'Jamón Plumrose, perfecto para sándwiches, tequeños y picadas.' },
   { id: 'ovomaltina-35', nombre: 'Chocolate Ovomaltina 35 g', categoria: 'Lácteos y Grasas', precio: 4800, emoji: '🍫', img: 'img/productos/ovomaltina-35.jpg', desc: 'Chocolate Ovomaltina en presentación individual de 35 g.' },
 
   // ── Salsas y Aderezos ──
