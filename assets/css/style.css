@@ -514,18 +514,15 @@ footer {
 }
 .foot-social a:hover { background: rgba(201,162,39,.25); }
 .foot-copy { font-size: 12px; color: rgba(245,233,200,.25); }
-/* Crédito del desarrollador: fila propia al fondo, alineada a la izquierda.
-   El logo del lobo viene con fondo blanco, así que va en un chip blanco
-   redondeado para que se vea bien sobre el pie oscuro. */
+/* Marca + crédito del desarrollador, juntos a la izquierda del pie. */
+.foot-left { display: flex; align-items: center; gap: 22px; }
+/* Crédito del desarrollador, al lado de la marca con un separador.
+   El logo del lobo es blanco sobre transparente, así que se funde con el pie. */
 .foot-dev {
-  flex-basis: 100%; display: flex; align-items: center; gap: 11px;
-  padding-top: 22px; margin-top: 6px;
-  border-top: 1px solid rgba(245,233,200,.08);
+  display: flex; align-items: center; gap: 10px;
+  padding-left: 22px; border-left: 1px solid rgba(245,233,200,.12);
 }
-.foot-dev img {
-  height: 34px; width: 34px; object-fit: contain;
-  background: #fff; border-radius: 8px; padding: 3px;
-}
+.foot-dev img { height: 40px; width: 40px; object-fit: contain; }
 .foot-dev span { font-size: 12px; color: rgba(245,233,200,.4); letter-spacing: .4px; }
 .foot-dev strong { color: var(--oro); font-weight: 800; letter-spacing: .6px; }
 
@@ -636,8 +633,13 @@ body.cargado #hero-right { opacity: 1; transform: none; }
   footer { padding: 32px 20px; flex-direction: column; text-align: center; }
   .foot-der { align-items: center; }
   .foot-marca { flex-direction: column; }
-  /* En el celular el pie se centra: el crédito también, y sin estirarse. */
-  .foot-dev { flex-basis: auto; width: 100%; justify-content: center; }
+  /* En el celular todo se centra y se apila. */
+  .foot-left { flex-direction: column; gap: 18px; }
+  .foot-dev {
+    padding-left: 0; border-left: 0;
+    padding-top: 16px; border-top: 1px solid rgba(245,233,200,.1);
+    justify-content: center;
+  }
   #wa-float { bottom: 20px; right: 20px; }
 }
 @media (max-width: 560px) {
