@@ -18,6 +18,9 @@ window.SV_PRODUCTS = [
   { id: 'queso-blanco-500', nombre: 'Queso Blanco doble crema 500 g', categoria: 'Lácteos y Grasas', precio: 15900, emoji: '🧀', img: 'img/productos/queso-blanco-500.jpg', desc: 'Queso blanco doble crema, suave y fresco. Ideal para las arepas.' },
   { id: 'jamon-plumrose-500', nombre: 'Jamón Plumrose 500 g', categoria: 'Lácteos y Grasas', precio: 26500, emoji: '🍖', img: 'img/productos/jamon-plumrose-500.jpg', desc: 'Jamón Plumrose, perfecto para sándwiches, tequeños y picadas.' },
   { id: 'ovomaltina-35', nombre: 'Chocolate Ovomaltina 35 g', categoria: 'Lácteos y Grasas', precio: 4800, emoji: '🍫', img: 'img/productos/ovomaltina-35.jpg', desc: 'Chocolate Ovomaltina en presentación individual de 35 g.' },
+  { id: 'queso-guayanes-500', nombre: 'Queso Guayanés 500 g', categoria: 'Lácteos y Grasas', precio: 15900, emoji: '🧀', img: 'img/productos/queso-guayanes-500.jpg', desc: 'Queso Guayanés fresco, suave y salado. El favorito para las arepas.' },
+  { id: 'cerelac-400', nombre: 'Cerelac 400 g', categoria: 'Lácteos y Grasas', precio: 27800, emoji: '🍼', img: 'img/productos/cerelac-400.jpg', desc: 'Cerelac Nestlé, alimento vitaminado de trigo para los más pequeños.' },
+  { id: 'nestum-270', nombre: 'Nestum 270 g', categoria: 'Lácteos y Grasas', precio: 19200, emoji: '🥣', img: 'img/productos/nestum-270.jpg', desc: 'Cereal infantil Nestum 5 cereales, ideal desde los 7 meses.' },
 
   // ── Salsas y Aderezos ──
   { id: 'heinz-ketchup-397', nombre: 'Ketchup Heinz 397 g', categoria: 'Salsas y Aderezos', precio: 7900, emoji: '🍅', img: 'img/productos/heinz-ketchup-397.jpg', desc: 'Salsa de tomate Heinz original. El acompañante clásico de toda comida.' },
