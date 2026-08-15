@@ -26,6 +26,7 @@ window.SV_PRODUCTS = [
   { id: 'heinz-ketchup-397', nombre: 'Ketchup Heinz 397 g', categoria: 'Salsas y Aderezos', precio: 7900, emoji: '🍅', img: 'img/productos/heinz-ketchup-397.jpg', desc: 'Salsa de tomate Heinz original. El acompañante clásico de toda comida.' },
   { id: 'heinz-mostaza-195', nombre: 'Heinz Mostaza 195 g', categoria: 'Salsas y Aderezos', precio: 8700, emoji: '🌭', img: 'img/productos/heinz-mostaza-195.jpg', desc: 'Mostaza Heinz original. Ideal para perros calientes y hamburguesas.' },
   { id: 'salsa-fritz-maiz-145', nombre: 'Salsa Fritz sabor a Maíz 145 g', categoria: 'Salsas y Aderezos', precio: 7900, emoji: '🌽', img: 'img/productos/salsa-fritz-maiz-145.jpg', desc: 'Salsa Fritz con sabor a maíz. Ese toque único que solo se consigue allá.' },
+  { id: 'mayonesa-kraft-445', nombre: 'Mayonesa Kraft Premium 445 g', match: 'Mayonesa Kraft Premium 445g', categoria: 'Salsas y Aderezos', precio: 14700, emoji: '🫙', img: 'img/productos/mayonesa-kraft-445.jpg', desc: 'Mayonesa Kraft Premium, la auténtica. Cremosa para tus sándwiches y ensaladas.' },
 
   // ── Snacks ──
   { id: 'diablito-115', nombre: 'Diablitos 115 g', categoria: 'Snacks', precio: 10100, emoji: '🥫', img: 'img/productos/diablito-115.jpg', desc: 'Jamón endiablado Underwood. El clásico infaltable para las meriendas.' },
@@ -40,8 +41,10 @@ window.SV_PRODUCTS = [
   { id: 'chichero-1l', nombre: 'Chicha 1 litro', categoria: 'Bebidas', precio: 16100, emoji: '🥛', img: 'img/productos/chichero-1l.jpg', desc: 'El Chichero en presentación de 1 litro para compartir en familia.' },
   { id: 'toddy-200', nombre: 'Toddy 200 g', categoria: 'Bebidas', precio: 11000, emoji: '🍫', img: 'img/productos/toddy-200.jpg', desc: 'El chocolate en polvo de la infancia venezolana. Presentación de 200 g.' },
   { id: 'toddy-400', nombre: 'Toddy 400 g', categoria: 'Bebidas', precio: 20600, emoji: '🍫', img: 'img/productos/toddy-400.jpg', desc: 'Toddy en presentación familiar de 400 g. Rinde el doble, sabe igual de rico.' },
+  { id: 'maltin-15l', nombre: 'Maltín Polar 1.5 L', match: 'Maltin Polar 1.5L', categoria: 'Bebidas', precio: 8300, emoji: '🍺', img: 'img/productos/maltin-15l.jpg', desc: 'Maltín Polar en botella familiar de 1.5 litros. Energía y sabor para compartir.' },
 
   // ── Compotas ──
   { id: 'compota-manzana-186', nombre: 'Compota Heinz Manzana 186 g', categoria: 'Compotas', precio: 3700, emoji: '🍎', img: 'img/productos/compota-manzana-186.jpg', desc: 'Compota Heinz colada de manzana. Suavecita para los más pequeños.' },
-  { id: 'compota-pera-186', nombre: 'Compota Heinz Pera 186 g', categoria: 'Compotas', precio: 3700, emoji: '🍐', img: 'img/productos/compota-pera-186.jpg', desc: 'Compota Heinz colada de pera. Suavecita para los más pequeños.' }
+  { id: 'compota-pera-186', nombre: 'Compota Heinz Pera 186 g', categoria: 'Compotas', precio: 3700, emoji: '🍐', img: 'img/productos/compota-pera-186.jpg', desc: 'Compota Heinz colada de pera. Suavecita para los más pequeños.' },
+  { id: 'compota-ciruela-186', nombre: 'Compota Heinz Ciruela pasa 186 g', match: 'Compota Heinz Ciruela pasas 186g', categoria: 'Compotas', precio: 3700, emoji: '🍇', img: 'img/productos/compota-ciruela-186.jpg', desc: 'Compota Heinz colada de ciruela pasa. Suavecita para los más pequeños.' }
 ];
