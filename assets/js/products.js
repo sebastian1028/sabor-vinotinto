@@ -21,6 +21,9 @@ window.SV_PRODUCTS = [
   { id: 'queso-guayanes-500', nombre: 'Queso Guayanés 500 g', categoria: 'Lácteos y Grasas', precio: 15900, emoji: '🧀', img: 'img/productos/queso-guayanes-500.jpg', desc: 'Queso Guayanés fresco, suave y salado. El favorito para las arepas.' },
   { id: 'cerelac-400', nombre: 'Cerelac 400 g', categoria: 'Lácteos y Grasas', precio: 27800, emoji: '🍼', img: 'img/productos/cerelac-400.jpg', desc: 'Cerelac Nestlé, alimento vitaminado de trigo para los más pequeños.' },
   { id: 'nestum-270', nombre: 'Nestum 270 g', categoria: 'Lácteos y Grasas', precio: 19200, emoji: '🥣', img: 'img/productos/nestum-270.jpg', desc: 'Cereal infantil Nestum 5 cereales, ideal desde los 7 meses.' },
+  { id: 'rikesa-tocineta-300', nombre: 'Rikesa Tocineta 300 g', match: 'Rikesa Tocineta 300g', categoria: 'Lácteos y Grasas', precio: 20900, emoji: '🧀', img: 'img/productos/rikesa-tocineta-300.jpg', desc: 'Queso cheddar para untar Rikesa sabor tocineta, cremoso y con vitaminas.' },
+  { id: 'crema-leche-500', nombre: 'Crema de Leche Táchira 500 g', categoria: 'Lácteos y Grasas', precio: 36700, emoji: '🥛', img: 'img/productos/crema-leche-500.jpg', desc: 'Crema de leche Paisa Táchira pasteurizada. Para tus recetas y postres.' },
+  { id: 'crema-arroz-900', nombre: 'Crema de Arroz Polly 900 g', categoria: 'Lácteos y Grasas', precio: 8200, emoji: '🍚', img: 'img/productos/crema-arroz-900.jpg', desc: 'Crema de arroz Polly enriquecida, sabor vainilla. Ideal desde los 6 meses.' },
 
   // ── Salsas y Aderezos ──
   { id: 'heinz-ketchup-397', nombre: 'Ketchup Heinz 397 g', categoria: 'Salsas y Aderezos', precio: 7900, emoji: '🍅', img: 'img/productos/heinz-ketchup-397.jpg', desc: 'Salsa de tomate Heinz original. El acompañante clásico de toda comida.' },
