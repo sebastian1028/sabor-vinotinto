@@ -24,6 +24,7 @@ window.SV_PRODUCTS = [
   { id: 'rikesa-tocineta-300', nombre: 'Rikesa Tocineta 300 g', match: 'Rikesa Tocineta 300g', categoria: 'Lácteos y Grasas', precio: 20900, emoji: '🧀', img: 'img/productos/rikesa-tocineta-300.jpg', desc: 'Queso cheddar para untar Rikesa sabor tocineta, cremoso y con vitaminas.' },
   { id: 'crema-leche-500', nombre: 'Crema de Leche Táchira 500 g', categoria: 'Lácteos y Grasas', precio: 36700, emoji: '🥛', img: 'img/productos/crema-leche-500.jpg', desc: 'Crema de leche Paisa Táchira pasteurizada. Para tus recetas y postres.' },
   { id: 'crema-arroz-900', nombre: 'Crema de Arroz Polly 900 g', categoria: 'Lácteos y Grasas', precio: 8200, emoji: '🍚', img: 'img/productos/crema-arroz-900.jpg', desc: 'Crema de arroz Polly enriquecida, sabor vainilla. Ideal desde los 6 meses.' },
+  { id: 'crema-arroz-450', nombre: 'Crema de Arroz Polly 450 g', match: 'Crema de arroz polly 450g', categoria: 'Lácteos y Grasas', precio: 5600, emoji: '🍚', img: 'img/productos/crema-arroz-450.jpg', desc: 'Crema de arroz Polly enriquecida, sabor vainilla. Presentación de 450 g.' },
 
   // ── Salsas y Aderezos ──
   { id: 'heinz-ketchup-397', nombre: 'Ketchup Heinz 397 g', categoria: 'Salsas y Aderezos', precio: 7900, emoji: '🍅', img: 'img/productos/heinz-ketchup-397.jpg', desc: 'Salsa de tomate Heinz original. El acompañante clásico de toda comida.' },
