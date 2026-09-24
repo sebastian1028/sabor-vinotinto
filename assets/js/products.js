@@ -25,6 +25,7 @@ window.SV_PRODUCTS = [
   { id: 'crema-leche-500', nombre: 'Crema de Leche Táchira 500 g', categoria: 'Lácteos y Grasas', precio: 36700, emoji: '🥛', img: 'img/productos/crema-leche-500.jpg', desc: 'Crema de leche Paisa Táchira pasteurizada. Para tus recetas y postres.' },
   { id: 'crema-arroz-900', nombre: 'Crema de Arroz Polly 900 g', categoria: 'Lácteos y Grasas', precio: 8200, emoji: '🍚', img: 'img/productos/crema-arroz-900.jpg', desc: 'Crema de arroz Polly enriquecida, sabor vainilla. Ideal desde los 6 meses.' },
   { id: 'crema-arroz-450', nombre: 'Crema de Arroz Polly 450 g', match: 'Crema de arroz polly 450g', categoria: 'Lácteos y Grasas', precio: 5600, emoji: '🍚', img: 'img/productos/crema-arroz-450.jpg', desc: 'Crema de arroz Polly enriquecida, sabor vainilla. Presentación de 450 g.' },
+  { id: 'riko-malt-500', nombre: 'Riko Malt 500 ml', categoria: 'Lácteos y Grasas', precio: 8000, emoji: '🍫', img: 'img/productos/riko-malt-500.jpg', desc: 'Bebida malteada chocolatada Parmalat, esterilizada. Un clásico venezolano.' },
 
   // ── Salsas y Aderezos ──
   { id: 'heinz-ketchup-397', nombre: 'Ketchup Heinz 397 g', categoria: 'Salsas y Aderezos', precio: 7900, emoji: '🍅', img: 'img/productos/heinz-ketchup-397.jpg', desc: 'Salsa de tomate Heinz original. El acompañante clásico de toda comida.' },
@@ -50,5 +51,6 @@ window.SV_PRODUCTS = [
   // ── Compotas ──
   { id: 'compota-manzana-186', nombre: 'Compota Heinz Manzana 186 g', categoria: 'Compotas', precio: 3700, emoji: '🍎', img: 'img/productos/compota-manzana-186.jpg', desc: 'Compota Heinz colada de manzana. Suavecita para los más pequeños.' },
   { id: 'compota-pera-186', nombre: 'Compota Heinz Pera 186 g', categoria: 'Compotas', precio: 3700, emoji: '🍐', img: 'img/productos/compota-pera-186.jpg', desc: 'Compota Heinz colada de pera. Suavecita para los más pequeños.' },
-  { id: 'compota-ciruela-186', nombre: 'Compota Heinz Ciruela pasa 186 g', match: 'Compota Heinz Ciruela pasas 186g', categoria: 'Compotas', precio: 3700, emoji: '🍇', img: 'img/productos/compota-ciruela-186.jpg', desc: 'Compota Heinz colada de ciruela pasa. Suavecita para los más pequeños.' }
+  { id: 'compota-ciruela-186', nombre: 'Compota Heinz Ciruela pasa 186 g', match: 'Compota Heinz Ciruela pasas 186g', categoria: 'Compotas', precio: 3700, emoji: '🍇', img: 'img/productos/compota-ciruela-186.jpg', desc: 'Compota Heinz colada de ciruela pasa. Suavecita para los más pequeños.' },
+  { id: 'compota-frutas-mixtas-186', nombre: 'Compota Heinz Frutas Mixtas 186 g', categoria: 'Compotas', precio: 4000, emoji: '🍍', img: 'img/productos/compota-frutas-mixtas-186.jpg', desc: 'Compota Heinz colada de frutas mixtas. Suavecita para los más pequeños.' }
 ];
