@@ -9,7 +9,8 @@
    La foto de cada producto es img/productos/<id>.jpg (mismo nombre que el id). */
 window.SV_PRODUCTS = [
   // ── Lácteos y Grasas ──
-  { id: 'mayonesa-mavesa-910', nombre: 'Mayonesa Mavesa 910 g', categoria: 'Lácteos y Grasas', precio: 27300, emoji: '🫙', img: 'img/productos/mayonesa-mavesa-910.jpg', desc: 'La mayonesa favorita de Venezuela. Suave, cremosa y con ese sabor que tanto se extraña.' },
+  { id: 'mayonesa-mavesa-910', nombre: 'Mayonesa Mavesa 910 g', categoria: 'Salsas y Aderezos', precio: 27500, emoji: '🫙', img: 'img/productos/mayonesa-mavesa-910.jpg', desc: 'La mayonesa favorita de Venezuela. Suave, cremosa y con ese sabor que tanto se extraña.' },
+  { id: 'mayonesa-mavesa-445', nombre: 'Mayonesa Mavesa 445 g', match: 'Mavesa Mayonesa 445g', categoria: 'Salsas y Aderezos', precio: 14000, emoji: '🫙', img: 'img/productos/mayonesa-mavesa-445.jpg', desc: 'La mayonesa favorita de Venezuela, en presentación de 445 g.' },
   { id: 'margarina-mavesa-500', nombre: 'Margarina Mavesa 500 g', categoria: 'Lácteos y Grasas', precio: 10300, emoji: '🧈', img: 'img/productos/margarina-mavesa-500.jpg', desc: 'La margarina más cremosa de Venezuela. Perfecta para arepas y cachapas.' },
   { id: 'margarina-mavesa-250', nombre: 'Margarina Mavesa 250 g', categoria: 'Lácteos y Grasas', precio: 5800, emoji: '🧈', img: 'img/productos/margarina-mavesa-250.jpg', desc: 'Margarina Mavesa en presentación de 250 g. El rico sabor de siempre.' },
   { id: 'margarina-mavesa-1kilo', nombre: 'Margarina Mavesa 1 kilo', categoria: 'Lácteos y Grasas', precio: 24200, emoji: '🧈', img: 'img/productos/margarina-mavesa-1kilo.jpg', desc: 'Margarina Mavesa en presentación familiar de 1 kilo.' },
