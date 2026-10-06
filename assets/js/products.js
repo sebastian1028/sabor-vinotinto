@@ -13,6 +13,7 @@ window.SV_PRODUCTS = [
   { id: 'mayonesa-mavesa-445', nombre: 'Mayonesa Mavesa 445 g', match: 'Mavesa Mayonesa 445g', categoria: 'Salsas y Aderezos', precio: 14000, emoji: '🫙', img: 'img/productos/mayonesa-mavesa-445.jpg', desc: 'La mayonesa favorita de Venezuela, en presentación de 445 g.' },
   { id: 'margarina-mavesa-500', nombre: 'Margarina Mavesa 500 g', categoria: 'Lácteos y Grasas', precio: 10300, emoji: '🧈', img: 'img/productos/margarina-mavesa-500.jpg', desc: 'La margarina más cremosa de Venezuela. Perfecta para arepas y cachapas.' },
   { id: 'margarina-mavesa-250', nombre: 'Margarina Mavesa 250 g', categoria: 'Lácteos y Grasas', precio: 5800, emoji: '🧈', img: 'img/productos/margarina-mavesa-250.jpg', desc: 'Margarina Mavesa en presentación de 250 g. El rico sabor de siempre.' },
+  { id: 'leche-campina-400', nombre: 'Leche La Campiña 400 g', match: 'Leche La Campiña 400g', categoria: 'Lácteos y Grasas', precio: 25000, emoji: '🥛', img: 'img/productos/leche-campina-400.jpg', desc: 'Leche en polvo completa La Campiña, enriquecida con vitaminas A y D.' },
   { id: 'margarina-mavesa-1kilo', nombre: 'Margarina Mavesa 1 kilo', categoria: 'Lácteos y Grasas', precio: 24200, emoji: '🧈', img: 'img/productos/margarina-mavesa-1kilo.jpg', desc: 'Margarina Mavesa en presentación familiar de 1 kilo.' },
   { id: 'rikesa-cheddar-300', nombre: 'Rikesa Cheddar 300 g', categoria: 'Lácteos y Grasas', precio: 20900, emoji: '🧀', img: 'img/productos/rikesa-cheddar-300.jpg', desc: 'Queso cheddar para untar, con vitaminas A, B2, D y calcio. Delicioso en tostadas.' },
   { id: 'rikesa-cheddar-200', nombre: 'Rikesa Cheddar 200 g', categoria: 'Lácteos y Grasas', precio: 13900, emoji: '🧀', img: 'img/productos/rikesa-cheddar-200.jpg', desc: 'Queso cheddar para untar Rikesa, presentación de 200 g.' },
@@ -40,6 +41,8 @@ window.SV_PRODUCTS = [
   { id: 'pepitonas-margarita-140', nombre: 'Pepitonas Margarita 140 g', categoria: 'Snacks', precio: 7400, emoji: '🦪', img: 'img/productos/pepitonas-margarita-140.jpg', desc: 'Pepitonas de la Isla de Margarita en lata. El sabor del mar venezolano.' },
   { id: 'galletas-maria-250', nombre: 'Galletas maria 250 g', categoria: 'Snacks', precio: 6300, emoji: '🍪', img: 'img/productos/galletas-maria-250.jpg', desc: 'Galletas María, las de siempre para el café o la merienda.' },
   { id: 'pepito-80', nombre: 'Pepito el original 80 g frito lay', categoria: 'Snacks', precio: 5900, emoji: '🧁', img: 'img/productos/pepito-80.jpg', desc: 'Pepito el original, el ponqué relleno de chocolate de toda la vida.' },
+  { id: 'samba-fresa-32', nombre: 'Samba Fresa Savoy 32 g', match: 'Samba Fresa Savoy 32g', categoria: 'Snacks', precio: 3000, emoji: '🍫', img: 'img/productos/samba-fresa-32.jpg', desc: 'Galleta cubierta rellena sabor a fresa Savoy. Un clásico de las loncheras.' },
+  { id: 'galletas-marilu-216', nombre: 'Galletas Marilu Chocolate 216 g', match: 'Galletas Marilu  Chocolate 216g', categoria: 'Snacks', precio: 7500, emoji: '🍪', img: 'img/productos/galletas-marilu-216.jpg', desc: 'Galletas Marilu rellenas con crema de chocolate, en 6 paquetes individuales.' },
 
   // ── Bebidas ──
   { id: 'maltin-355', nombre: 'Malta Maltín Polar lata 355 ml', categoria: 'Bebidas', precio: 4000, emoji: '🍺', img: 'img/productos/maltin-355.jpg', desc: 'La malta venezolana por excelencia, rica en vitaminas del grupo B.' },
